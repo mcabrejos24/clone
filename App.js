@@ -1,21 +1,94 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
+import FontAwesome, { Icons } from "react-native-fontawesome";
+
 
 export default class App extends React.Component {
   render() {
+    const style = {
+      backgroundColor: 'lightblue',
+      flex: 1,
+      //alignItems: 'center',
+    }
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+      <SafeAreaView style={style}>
+        <ProfileBtn />
+        <NewStatus />
+        <Posts />
+        <Navbar />
+      </SafeAreaView>
+    )
   }
 }
 
-const styles = StyleSheet.create({
+
+
+const ProfileBtn = (props) => {
+  return (
+    <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+      <Text> 
+        Profile
+        
+      </Text>
+    </View>
+  )
+}
+
+// const Row = (props) => {
+//   return (
+//     <View style={{flexDirection: 'row'}}>
+//       <Square />
+//       <Square />
+//       <Square />
+//     </View>
+//   )
+// }
+
+// const Square = (props) => {
+//   const style = {
+//     width: 100,
+//     height: 100,
+//     borderColor: 'black',
+//     borderWidth: 1,
+//     justifyContent: 'center',
+//   }
+
+//   return (
+//     <View style={style}>
+//       <Text style={{textAlign: 'center'}}>This is a Square.</Text>
+//     </View>
+//   )
+// }
+
+const NewStatus = (props) => {
+  return (
+    <View style={newStatStyle.container}>
+      <Text>+</Text>
+    </View>
+  )
+}
+
+const Posts = (props) => {
+  return (
+    <View style={newStatStyle.container}>
+      <Text>+</Text>
+    </View>
+  )
+}
+
+const Navbar = (props) => {
+  return (
+    <View style={newStatStyle.container}>
+      <Text>+</Text>
+    </View>
+  )
+}
+
+const newStatStyle = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'green',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    
   },
 });
