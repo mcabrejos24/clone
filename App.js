@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
-import FontAwesome, { Icons } from "react-native-fontawesome";
+
+
 
 
 export default class App extends React.Component {
@@ -28,7 +29,7 @@ const ProfileBtn = (props) => {
     <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
       <Text> 
         Profile
-        
+
       </Text>
     </View>
   )
