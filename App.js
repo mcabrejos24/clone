@@ -1,5 +1,12 @@
 import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
+import { Home } from './Home.js'
+import { Search } from './Search.js'
+import { Chat } from './Chat.js'
+import { Notifications } from './Notifications.js'
+
+
+
 
 
 
@@ -13,10 +20,10 @@ export default class App extends React.Component {
     }
     return (
       <SafeAreaView style={style}>
-        <ProfileBtn />
-        <NewStatus />
-        <Posts />
-        <Navbar />
+        <Home />
+        <Search />
+        <Chat />
+        <Notifications />
       </SafeAreaView>
     )
   }
@@ -24,16 +31,21 @@ export default class App extends React.Component {
 
 
 
-const ProfileBtn = (props) => {
-  return (
-    <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-      <Text> 
-        Profile
 
-      </Text>
-    </View>
-  )
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const Row = (props) => {
 //   return (
@@ -60,36 +72,3 @@ const ProfileBtn = (props) => {
 //     </View>
 //   )
 // }
-
-const NewStatus = (props) => {
-  return (
-    <View style={newStatStyle.container}>
-      <Text>+</Text>
-    </View>
-  )
-}
-
-const Posts = (props) => {
-  return (
-    <View style={newStatStyle.container}>
-      <Text>+</Text>
-    </View>
-  )
-}
-
-const Navbar = (props) => {
-  return (
-    <View style={newStatStyle.container}>
-      <Text>+</Text>
-    </View>
-  )
-}
-
-const newStatStyle = StyleSheet.create({
-  container: {
-    backgroundColor: 'green',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    
-  },
-});
