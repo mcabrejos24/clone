@@ -1,9 +1,13 @@
 import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
+import { Svg } from 'expo'
 import { Home } from './Home.js'
 import { Search } from './Search.js'
 import { Chat } from './Chat.js'
 import { Notifications } from './Notifications.js'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -20,6 +24,8 @@ export default class App extends React.Component {
     }
     return (
       <SafeAreaView style={style}>
+        <FontAwesomeIcon icon={ faCoffee } />
+ 
         <Home />
         <Search />
         <Chat />
