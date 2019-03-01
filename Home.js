@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, SafeAreaView, Text, View, StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export class HomeScreen extends React.Component {
   render() {
@@ -10,7 +11,11 @@ export class HomeScreen extends React.Component {
         <FontAwesomeIcon icon={ faCoffee } />
         <Text>Home Screen</Text>
         <Button
-          
+          icon={{
+            name: "arrow-right",
+            size: 15,
+            color: "white"
+          }}
           title="Go to Profile"
           onPress={() => this.props.navigation.navigate('Profile')}
         />
