@@ -90,10 +90,24 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const HomeStack = createStackNavigator({
+const HomeStack = createStackNavigator(
+  {
     Home: HomeScreen,
     Profile: ProfileScreen,
-});
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#4B9CD3',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+    
+  }
+);
 
 
 //export default createAppContainer(AppNavigator);
