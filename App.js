@@ -6,7 +6,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
 
-import { HomeScreen } from './Home.js'
+import { HomeStack, HomeDrawer } from './Home.js'
 import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
@@ -77,42 +77,25 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Profile: ProfileScreen,
-    Search: SearchScreen,
-    Chat: ChatScreen,
-    Notifications: NotificationsScreen
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
+// const AppNavigator = createStackNavigator(
+//   {
+//     Home: HomeScreen,
+//     Profile: ProfileScreen,
+//     Search: SearchScreen,
+//     Chat: ChatScreen,
+//     Notifications: NotificationsScreen
+//   },
+//   {
+//     initialRouteName: "Home"
+//   }
+// );
 
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Profile: ProfileScreen,
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#4B9CD3',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
-    
-  }
-);
+
 
 
 //export default createAppContainer(AppNavigator);
 const TabNavigator = createBottomTabNavigator({
-    Home: HomeStack,
+    Home: HomeDrawer,
     //Profile: ProfileScreen,
     Search: SearchScreen,
     Chat: ChatScreen,
@@ -138,69 +121,3 @@ export default class App extends React.Component {
     return <AppContainer />;
   }
 }
-
-
-
-// export default class App extends React.Component {
-//   render() {
-//     const style = {
-//       backgroundColor: 'lightblue',
-//       flex: 1,
-//       //alignItems: 'center',
-//     }
-//     return (
-//       <SafeAreaView style={style}>
-//         <FontAwesomeIcon icon={ faCoffee } />
- 
-//         <Home />
-//         <Search />
-//         <Chat />
-//         <Notifications />
-//       </SafeAreaView>
-//     )
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const Row = (props) => {
-//   return (
-//     <View style={{flexDirection: 'row'}}>
-//       <Square />
-//       <Square />
-//       <Square />
-//     </View>
-//   )
-// }
-
-// const Square = (props) => {
-//   const style = {
-//     width: 100,
-//     height: 100,
-//     borderColor: 'black',
-//     borderWidth: 1,
-//     justifyContent: 'center',
-//   }
-
-//   return (
-//     <View style={style}>
-//       <Text style={{textAlign: 'center'}}>This is a Square.</Text>
-//     </View>
-//   )
-// }

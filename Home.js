@@ -2,7 +2,12 @@ import React from 'react'
 import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
+import { ProfileScreen } from './Profile.js'
+import { SettingsScreen } from './Settings.js'
+import { PostScreen } from './Post.js'
+
 
 class LogoTitle extends React.Component {
   render() {
@@ -16,7 +21,7 @@ class LogoTitle extends React.Component {
   }
 }
 
-export class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: <LogoTitle />,
@@ -30,14 +35,13 @@ export class HomeScreen extends React.Component {
           }}
         >
           <FontAwesomeIcon 
-            icon={ faUserCircle } size={25} style={{ width: 24, height: 24, color: 'white' }}
+            icon={ faUserCircle } size={25} style={{color: 'white' }}
           />
-          {/* <Ionicons style={{ width: 24, height: 24, margin: 5 }} name={'ios-home'} size={30} color={'#4B9CD3'} /> */}
         </TouchableOpacity>
       ),
       headerRight: (
         <TouchableOpacity 
-          onPress={() => alert("to post a new status, not there yet :')")}
+          onPress={() => navigation.navigate('NewPost')}
           style = {{
             fontSize: 32,
             marginRight: 15,
@@ -45,10 +49,18 @@ export class HomeScreen extends React.Component {
         >
           <FontAwesomeIcon 
             icon={ faPlusCircle } size={25} style={{ width: 24, height: 24, color: 'white' }}
+            // I think the width and height don't do anything because need to do it with size and isn't a picture so might take off
           />
           {/* <Ionicons style={{ width: 24, height: 24, margin: 5 }} name={'ios-home'} size={30} color={'#4B9CD3'} /> */}
         </TouchableOpacity>
       ), 
+      drawerLabel: 'Home',
+      drawerIcon: ({tintColor}) => (
+        <Image
+        source={require('./jelly.png')}
+        style={[styles.icon, {tintColor: tintColor}]}
+      />
+      )
     };
   };
 
@@ -66,11 +78,70 @@ export class HomeScreen extends React.Component {
   }
 }
 
-//   const Posts = (props) => {
-//     return (
-//       <View style={newStatStyle.container}>
-//         <Text>+</Text>
-//       </View>
-//     )
-//   }
-  
+class NewPost extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 30 }}>Write a new post!</Text>
+
+        <Button
+          color="#4B9CD3"
+          onPress={() => this.props.navigation.goBack()}
+          title="X"
+        />
+      </View>
+    );
+  }
+}
+
+
+
+const MainStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Profile: ProfileScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#4B9CD3',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+    
+  }
+);
+
+const HomeStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    NewPost: {
+      screen: NewPost,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+export const HomeDrawer = createDrawerNavigator({
+  Home: {
+    screen: HomeStack,
+  },
+  Profile: {
+    screen: ProfileScreen,
+  },
+  Settings: {
+    screen: SettingsScreen,
+  },
+  Posts: {
+    screen: PostScreen,
+  }
+});
+
