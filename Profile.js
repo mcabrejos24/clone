@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, SafeAreaView, Text, View, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-export class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
   static navigationOptions = {
     drawerIcon: () => (
       <Image
@@ -14,24 +14,102 @@ export class ProfileScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Profile Screen</Text>
-        <Button
-          title="Go to Profile... again"
-          onPress={() => this.props.navigation.push('Profile')}
-        />
-         <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.goBack()}
-        />
+        <TouchableOpacity 
+          onPress={() => this.props.navigation.navigate('Picture')}
+          style = {{
+            fontSize: 32,
+            marginRight: 15,
+          }}
+        >
+          
+          {/* <Ionicons style={{ width: 24, height: 24, margin: 5 }} name={'ios-home'} size={30} color={'#4B9CD3'} /> */}
+          <Text 
+          style={{
+            
+            color: 'black',
+            fontSize: 15,
+            padding: 5,
+            
+          }}>
+            Choose Photo
+          </Text>
+        </TouchableOpacity>
       </View>
+    );
+  }
+
+  
+}
+
+
+class PictureScreen extends React.Component {
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 35 }}>Choose a photo</Text>
+        {/* This is the right button */}
+        <TouchableOpacity
+          style = {{
+            fontSize: 20,
+            marginRight:20,
+            marginLeft:20,
+            marginTop:10,
+            padding: 1,
+            backgroundColor:'#4B9CD3',
+            borderRadius:10,
+            borderWidth: 1,
+            borderColor: '#4B9CD3',
+            bottom: 317,
+            right: 140,
+            
+          }}
+          onPress={() => this.props.navigation.navigate("Profile")}
+        >
+          <Text 
+          style={{
+            
+            color: 'white',
+            fontSize: 15,
+            padding: 5,
+            
+          }}>
+            Profile
+          </Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     );
   }
 }
 
+export const ProfileStack = createStackNavigator(
+  {
+    Profile: {
+      screen: ProfileScreen,
+    },
+    Picture: {
+      screen: PictureScreen,
+    }
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+  
+  // {
+    
+  //   defaultNavigationOptions: {
+  //     headerStyle: {
+  //       backgroundColor: '#4B9CD3',
+  //       //carolina color
+  //     },
+  //     headerTintColor: '#fff',
+  //     headerTitleStyle: {
+  //       fontWeight: 'bold',
+  //     },
+  //   },
+    
+  // }
+);
 // export const Profile = (props) => {
 //     return (
 //       <View>
