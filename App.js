@@ -6,7 +6,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
 
-import { HomeStack, HomeDrawer } from './Home.js'
+import { HomeStack } from './Home.js'
 import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
@@ -95,7 +95,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 //export default createAppContainer(AppNavigator);
 const TabNavigator = createBottomTabNavigator({
-    Home: HomeDrawer,
+    Home: HomeStack,
     //Profile: ProfileScreen,
     Search: SearchScreen,
     Chat: ChatScreen,

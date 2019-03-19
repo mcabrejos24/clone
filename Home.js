@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPlusCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
 import { ProfileScreen } from './Profile.js'
@@ -28,7 +28,8 @@ class HomeScreen extends React.Component {
       headerBackTitle: 'Home',
       headerLeft: (
         <TouchableOpacity 
-          onPress={() => navigation.navigate('Profile')}
+          //onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.openDrawer()}
           style = {{
             fontSize: 32,
             marginLeft: 15,
@@ -81,15 +82,55 @@ class HomeScreen extends React.Component {
 class NewPost extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 30 }}>Write a new post!</Text>
-
-        <Button
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <TouchableOpacity
           color="#4B9CD3"
+          style = {{
+            fontSize: 30,
+            marginRight: 15,
+            right: 140,
+            bottom: 235,
+          }}
           onPress={() => this.props.navigation.goBack()}
-          title="X"
-        />
-      </View>
+        >
+          <FontAwesomeIcon 
+            icon={ faTimes } size={25} style={{color: '#4B9CD3' }}
+          />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 35 }}>Write a new post!</Text>
+        {/* This is the right button */}
+        <TouchableOpacity
+          style = {{
+            fontSize: 20,
+            marginRight:20,
+            marginLeft:20,
+            marginTop:10,
+            padding: 1,
+            backgroundColor:'#4B9CD3',
+            borderRadius:10,
+            borderWidth: 1,
+            borderColor: '#4B9CD3',
+            bottom: 317,
+            left: 140,
+            
+          }}
+          // onPress={() = > this.postSting}
+        >
+          {/* <FontAwesomeIcon
+            
+          /> */}
+          <Text 
+          style={{
+            
+            color: 'white',
+            fontSize: 15,
+            padding: 5,
+            
+          }}>
+            Post
+          </Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     );
   }
 }
@@ -100,11 +141,15 @@ const MainStack = createStackNavigator(
   {
     Home: HomeScreen,
     Profile: ProfileScreen,
+    Settings: SettingsScreen,
+    Posts: PostScreen,
   },
   {
+    
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#4B9CD3',
+        //carolina color
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -115,10 +160,35 @@ const MainStack = createStackNavigator(
   }
 );
 
-const HomeStack = createStackNavigator(
+
+
+const HomeDrawer = createDrawerNavigator(
+  {
+    Profile: {
+      screen: ProfileScreen,
+    },
+    Settings: {
+      screen: SettingsScreen,
+    },
+    Posts: {
+      screen: PostScreen,
+    },
+    Home: {
+      screen: MainStack,
+      navigationOptions: {
+        drawerLabel: () => null,
+      },
+    },
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
+
+export const HomeStack = createStackNavigator(
   {
     Main: {
-      screen: MainStack,
+      screen: HomeDrawer,
     },
     NewPost: {
       screen: NewPost,
@@ -129,19 +199,3 @@ const HomeStack = createStackNavigator(
     headerMode: 'none',
   }
 );
-
-export const HomeDrawer = createDrawerNavigator({
-  Home: {
-    screen: HomeStack,
-  },
-  Profile: {
-    screen: ProfileScreen,
-  },
-  Settings: {
-    screen: SettingsScreen,
-  },
-  Posts: {
-    screen: PostScreen,
-  }
-});
-
