@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
-import { ProfileScreen } from './Profile.js'
+import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
@@ -157,7 +157,7 @@ class NewPost extends React.Component { //making a new post
 const MainStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Profile: ProfileScreen,
+    Profile: ProfileStack,
     Settings: SettingsScreen,
     Posts: PostScreen,
   },
@@ -182,7 +182,7 @@ const MainStack = createStackNavigator(
 const HomeDrawer = createDrawerNavigator(
   {
     Profile: {
-      screen: ProfileScreen,
+      screen: ProfileStack,
     },
     Settings: {
       screen: SettingsScreen,
