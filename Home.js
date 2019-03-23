@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar, TextInput } from 'react-native'
+import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar, TextInput, ScrollView, Dimensions, FlatList } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
@@ -8,6 +8,9 @@ import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
+//var {height, width} = Dimensions.get('window')
+
+//alert(width)
 
 class LogoTitle extends React.Component {
   render() {
@@ -20,6 +23,13 @@ class LogoTitle extends React.Component {
     );
   }
 }
+
+state = {
+  data: [
+    {key: 'Devin'},
+    {key: 'Jackson'},
+  ],
+};
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -66,14 +76,25 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
+      
+      <ScrollView>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="#6a51ae"
         />
-        <Text style={{fontSize:25}}>Welcome to Clone!</Text>
+        <FlatList 
+        data={state.data}
+        //data
+        renderItem={({item}) => <Text style={{padding: 10,
+          fontSize: 18,
+          height: 44,}}>{item.key}</Text>}
+        
+        />
+        <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
         <Text>Check back here any time to find posts from people you follow.</Text>
       </View>
+      </ScrollView>
     );
   }
 }
@@ -83,6 +104,14 @@ class NewPost extends React.Component { //making a new post
     super(props);
     this.state = {text: ''};
   }
+
+  updateList(newText) {
+    state.data[0].key = newText
+    alert(state.data[0].key)
+    this.props.navigation.goBack()
+    //this.props.navigation.
+  }
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
@@ -137,7 +166,7 @@ class NewPost extends React.Component { //making a new post
             width: 45,
             left: 290,
           }}
-          // onPress={() = > this.postSting}
+          onPress={() => this.updateList(this.state.text)}
         >
           <Text 
           style={{
@@ -153,6 +182,7 @@ class NewPost extends React.Component { //making a new post
     );
   }
 }
+
 
 const MainStack = createStackNavigator(
   {
