@@ -1,10 +1,12 @@
+//If adding something to website
 git init
 git remote add origin https:// gitlab.com/unc-app-lab/clone.git
+//Might need to do ---  git pull --- here
 git add .
 git commit -m "git message name"
 git push -u origin master
 
-
+//If downloading the entire project
 get fetch --all
 git reset --hard origin/master
 git status

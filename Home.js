@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar } from 'react-native'
+import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar, TextInput, ScrollView, Dimensions, FlatList } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
@@ -8,6 +8,9 @@ import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
+//var {height, width} = Dimensions.get('window')
+
+//alert(width)
 
 class LogoTitle extends React.Component {
   render() {
@@ -21,6 +24,13 @@ class LogoTitle extends React.Component {
   }
 }
 
+state = {
+  data: [
+    {key: 'Devin'},
+    {key: 'Jackson'},
+  ],
+};
+
 class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -28,7 +38,6 @@ class HomeScreen extends React.Component {
       headerBackTitle: 'Home',
       headerLeft: (
         <TouchableOpacity 
-          //onPress={() => navigation.navigate('Profile')}
           onPress={() => navigation.openDrawer()}
           style = {{
             fontSize: 32,
@@ -65,31 +74,76 @@ class HomeScreen extends React.Component {
     };
   };
 
+  update() {
+    //state.data[0].key = 'hey'
+    console.log(state.data[0].key)
+  }
+
   render() {
     return (
+      
+      <ScrollView>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="#6a51ae"
         />
-        <Text style={{fontSize:25}}>Welcome to Clone!</Text>
+        <FlatList 
+        data={state.data}
+        //data
+        renderItem={({item}) => <Text style={{padding: 10,
+          fontSize: 18,
+          height: 44,}}>{item.key}</Text>}
+        
+        />
+        <Text>{state.data[0].key}</Text>
+        <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
         <Text>Check back here any time to find posts from people you follow.</Text>
+        <Button onPress={() => this.update()} title='this' />
       </View>
+      </ScrollView>
     );
   }
 }
 
-class NewPost extends React.Component {
+class NewPost extends React.Component { //making a new post
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
+  updateList(newText) {
+    //this.getParam('change')
+    state.data[0].key = newText
+    alert(state.data[0].key)
+    this.props.navigation.goBack()
+    //this.props.navigation.
+    //state.data[0].key
+  }
+
+  changeList = () => {
+    //this.setState({ state.data[0].key:  });
+  }
+
+  componentDidMount() {
+    //this.props.navigation.setParams({ change: this.changeList})
+  }
+
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="black"
+        />
         <TouchableOpacity
           color="#4B9CD3"
           style = {{
             fontSize: 30,
             marginRight: 15,
-            right: 140,
-            bottom: 235,
+            //right: 140,
+            bottom: 230,
+            left: 30,
           }}
           onPress={() => this.props.navigation.goBack()}
         >
@@ -97,7 +151,22 @@ class NewPost extends React.Component {
             icon={ faTimes } size={25} style={{color: '#4B9CD3' }}
           />
         </TouchableOpacity>
-        <Text style={{ fontSize: 35 }}>Write a new post!</Text>
+        <TextInput
+          style={{
+            padding: 5,
+            margin: 5,
+            height: 30, 
+            // borderColor: 'black', 
+            // borderWidth: 1,
+            bottom: 215,
+            left: 20,
+            //right: 100,
+          }}
+          placeholder='Write a new post!'
+          placeholderTextColor='grey'
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
         {/* This is the right button */}
         <TouchableOpacity
           style = {{
@@ -110,23 +179,20 @@ class NewPost extends React.Component {
             borderRadius:10,
             borderWidth: 1,
             borderColor: '#4B9CD3',
-            bottom: 317,
-            left: 140,
-            
+            bottom: 310,
+            width: 45,
+            left: 290,
           }}
-          // onPress={() = > this.postSting}
+          onPress={() => this.updateList(this.state.text)}
+          //onPress={() => this.updateList(this.state.text)}
         >
-          {/* <FontAwesomeIcon
-            
-          /> */}
           <Text 
           style={{
-            
             color: 'white',
             fontSize: 15,
             padding: 5,
-            
-          }}>
+          }}
+          >
             Post
           </Text>
         </TouchableOpacity>
@@ -134,7 +200,6 @@ class NewPost extends React.Component {
     );
   }
 }
-
 
 
 const MainStack = createStackNavigator(
@@ -156,7 +221,9 @@ const MainStack = createStackNavigator(
         fontWeight: 'bold',
       },
     },
-    
+    navigationOptions: {
+      tabBarLabel: 'Home!'
+    }
   }
 );
 
