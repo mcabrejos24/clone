@@ -150,7 +150,7 @@ class PictureScreen extends React.Component {
           />
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={update}>
+          onPress={this.update}>
         <Text style={{ 
           fontSize: 35 
           }}>
