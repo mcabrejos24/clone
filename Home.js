@@ -221,7 +221,9 @@ const MainStack = createStackNavigator(
         fontWeight: 'bold',
       },
     },
-    
+    navigationOptions: {
+      tabBarLabel: 'Home!'
+    }
   }
 );
 
