@@ -74,6 +74,11 @@ class HomeScreen extends React.Component {
     };
   };
 
+  update() {
+    //state.data[0].key = 'hey'
+    console.log(state.data[0].key)
+  }
+
   render() {
     return (
       
@@ -91,8 +96,10 @@ class HomeScreen extends React.Component {
           height: 44,}}>{item.key}</Text>}
         
         />
+        <Text>{state.data[0].key}</Text>
         <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
         <Text>Check back here any time to find posts from people you follow.</Text>
+        <Button onPress={() => this.update()} title='this' />
       </View>
       </ScrollView>
     );
@@ -106,10 +113,20 @@ class NewPost extends React.Component { //making a new post
   }
 
   updateList(newText) {
+    //this.getParam('change')
     state.data[0].key = newText
     alert(state.data[0].key)
     this.props.navigation.goBack()
     //this.props.navigation.
+    //state.data[0].key
+  }
+
+  changeList = () => {
+    //this.setState({ state.data[0].key:  });
+  }
+
+  componentDidMount() {
+    //this.props.navigation.setParams({ change: this.changeList})
   }
 
   render() {
@@ -167,6 +184,7 @@ class NewPost extends React.Component { //making a new post
             left: 290,
           }}
           onPress={() => this.updateList(this.state.text)}
+          //onPress={() => this.updateList(this.state.text)}
         >
           <Text 
           style={{
