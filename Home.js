@@ -8,9 +8,11 @@ import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
-//var {height, width} = Dimensions.get('window')
+var {height, width} = Dimensions.get('window')
+//var {height, width} = Dimensions.get('textinput')
 
-//alert(width)
+console.log(width)
+console.log(height)
 
 class LogoTitle extends React.Component {
   render() {
@@ -32,6 +34,11 @@ state = {
 };
 
 class HomeScreen extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   //this.state = list
+  //   console.log(props)
+  // }
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: <LogoTitle />,
@@ -77,7 +84,29 @@ class HomeScreen extends React.Component {
   update() {
     //state.data[0].key = 'hey'
     console.log(state.data[0].key)
+    this.setState({
+      data: [
+        {key: 'me'},
+        {key: 'you'},
+      ],
+    })
   }
+
+  // state = {
+  //   count: 0,
+  // };
+
+  state = {
+    data: [
+      {key: 'Devin'},
+      {key: 'Jackson'},
+    ],
+  };
+
+  _increaseCount = () => {
+    this.setState({ count: this.state.count + 1});
+  }
+  //from last time
 
   render() {
     return (
@@ -99,7 +128,10 @@ class HomeScreen extends React.Component {
         <Text>{state.data[0].key}</Text>
         <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
         <Text>Check back here any time to find posts from people you follow.</Text>
-        <Button onPress={() => this.update()} title='this' />
+        {/* <Text> Count: {this.state.count}</Text> */}
+        <Text> Count: {this.state.data[0].key}</Text>
+        {/* we're check here to see how to update it with a global, from last time */}
+        <Button onPress={() => this.update()} title='this' /> 
       </View>
       </ScrollView>
     );
@@ -111,7 +143,7 @@ class NewPost extends React.Component { //making a new post
     super(props);
     this.state = {text: ''};
   }
-
+  //obiwon
   updateList(newText) {
     //this.getParam('change')
     state.data[0].key = newText
@@ -131,7 +163,13 @@ class NewPost extends React.Component { //making a new post
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}
+      // onLayout={(event) => {
+      //   var {x, y, width, height} = event.nativeEvent.layout
+      //   console.log(width)
+      //   console.log(height)
+      // }}
+      >
         <StatusBar
           barStyle="dark-content"
           backgroundColor="black"
@@ -142,7 +180,7 @@ class NewPost extends React.Component { //making a new post
             fontSize: 30,
             marginRight: 15,
             //right: 140,
-            bottom: 230,
+            bottom: "24%",
             left: 30,
           }}
           onPress={() => this.props.navigation.goBack()}
@@ -151,37 +189,45 @@ class NewPost extends React.Component { //making a new post
             icon={ faTimes } size={25} style={{color: '#4B9CD3' }}
           />
         </TouchableOpacity>
-        <TextInput
-          style={{
-            padding: 5,
-            margin: 5,
-            height: 30, 
-            // borderColor: 'black', 
-            // borderWidth: 1,
-            bottom: 215,
-            left: 20,
-            //right: 100,
-          }}
+        <TextInput 
+          multiline={true}
           placeholder='Write a new post!'
           placeholderTextColor='grey'
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
+          // onContentSizeChange={(event) => {
+          //   this.setState({ height: event.nativeEvent.contentSize.height })
+          // }}
+
+          style={{
+            padding: 5,
+            margin: 5,
+            height: "35%", 
+            width: "85%",
+            //borderColor: 'black', 
+            //borderWidth: 1,
+            bottom: "22.6%",
+            left: 20,
+            //right: 100,
+          }}
         />
         {/* This is the right button */}
         <TouchableOpacity
           style = {{
-            fontSize: 20,
-            marginRight:20,
-            marginLeft:20,
-            marginTop:10,
+            fontSize: "20%",
+            marginRight: "20%",
+            marginLeft: "20%",
+            marginTop: 10,
             padding: 1,
             backgroundColor:'#4B9CD3',
             borderRadius:10,
             borderWidth: 1,
             borderColor: '#4B9CD3',
-            bottom: 310,
-            width: 45,
-            left: 290,
+            bottom: "67%",
+            width: "12%",
+            height: "5%",
+            left: "59%",
+            
           }}
           onPress={() => this.updateList(this.state.text)}
           //onPress={() => this.updateList(this.state.text)}
@@ -191,6 +237,7 @@ class NewPost extends React.Component { //making a new post
             color: 'white',
             fontSize: 15,
             padding: 5,
+            alignContent: 'center',
           }}
           >
             Post

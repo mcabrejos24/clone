@@ -42,7 +42,7 @@ class ProfileScreen extends React.Component {
     const itemId = navigation.getParam('itemId, "NO-ID');
     const otherParam = navigation.getParam('otherParam', 'some default value')
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         
           {/* <Ionicons style={{ width: 24, height: 24, margin: 5 }} name={'ios-home'} size={30} color={'#4B9CD3'} /> */}
     <ImageOverlay
@@ -52,7 +52,7 @@ class ProfileScreen extends React.Component {
       height: height ,
       }}
       contentPosition="bottom">
-      <View>
+      <SafeAreaView>
       <TouchableOpacity
       onPress={() => this.props.navigation.navigate("Picture")}>
         <Image style={{width: 150,
@@ -116,10 +116,10 @@ class ProfileScreen extends React.Component {
           />
           
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
 </ImageOverlay>
            
-      </View>
+      </SafeAreaView>
     );
   }
 
