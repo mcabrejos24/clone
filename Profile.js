@@ -29,12 +29,12 @@ class ProfileScreen extends React.Component {
     console.log(this.state)
     imageUri0 = 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
     imageUri1 = 'https://ae01.alicdn.com/kf/HTB1GMT9of9TBuNjy1zbq6xpepXaC/Garden-Lake-House-piture-cross-stitch-Full-diamond-Needlework-gift-new-embroidery-mosaic-diy-5D-diamond.jpg_640x640.jpg'
-    if (this.state.imageUri == imageUri0){
-      this.setState({imageUri : imageUri1}) 
-  }
-    else if (this.state.imageUri == imageUri1){
-      this.setState({imageUri : imageUri0}) 
-  }
+    // if (this.state.imageUri == imageUri0){
+    this.setState({imageUri : imageUri1}) 
+  // }
+  //   else if (this.state.imageUri == imageUri1){
+  //     this.setState({imageUri : imageUri0}) 
+  // }
   console.log(this.state)
   }
   render() { 
@@ -42,7 +42,7 @@ class ProfileScreen extends React.Component {
     const itemId = navigation.getParam('itemId, "NO-ID');
     const otherParam = navigation.getParam('otherParam', 'some default value')
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         
           {/* <Ionicons style={{ width: 24, height: 24, margin: 5 }} name={'ios-home'} size={30} color={'#4B9CD3'} /> */}
     <ImageOverlay
@@ -52,7 +52,7 @@ class ProfileScreen extends React.Component {
       height: height ,
       }}
       contentPosition="bottom">
-      <View>
+      <SafeAreaView>
       <TouchableOpacity
       onPress={() => this.props.navigation.navigate("Picture")}>
         <Image style={{width: 150,
@@ -116,10 +116,10 @@ class ProfileScreen extends React.Component {
           />
           
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
 </ImageOverlay>
            
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -134,7 +134,7 @@ class PictureScreen extends React.Component {
   }
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} force>
        <TouchableOpacity
           color="#4B9CD3"
           style = {{
