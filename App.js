@@ -10,7 +10,7 @@ import { HomeStack } from './Home.js'
 import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
-import { NotificationsScreen } from './Notifications.js'
+import { NotificationsStack } from './Notifications.js'
 
 
 
@@ -99,7 +99,7 @@ const TabNavigator = createBottomTabNavigator({
     //Profile: ProfileScreen,
     Search: SearchScreen,
     Chat: ChatScreen,
-    Notifications: NotificationsScreen
+    Notifications: NotificationsStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
