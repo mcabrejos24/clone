@@ -57,8 +57,8 @@ class NotificationsScreen extends React.Component {
       
      onLayout={(event) => {
        var {x, y, width, height} = event.nativeEvent.layout
-       console.log(width)
-       console.log(height)
+       //console.log(width)
+       //console.log(height)
      }}
       >
 

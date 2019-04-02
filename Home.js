@@ -11,8 +11,8 @@ import { PostScreen } from './Post.js'
 var {height, width} = Dimensions.get('window')  //to get the height and width
 var self //for a global variable of this
 
-console.log(width)
-console.log(height)
+//console.log(width)
+//console.log(height)
 
 
 class LogoTitle extends React.Component {
@@ -22,7 +22,6 @@ class LogoTitle extends React.Component {
         source={require('./jelly.png')}
         style={{ width: 30, height: 30 }}
       />
-      
     );
   }
 }
