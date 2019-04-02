@@ -4,7 +4,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint } from '@fortawesome/free-solid-svg-icons'
 import ImageOverlay from "react-native-image-overlay";
-import { Sae, Kaede, Fumi } from 'react-native-textinput-effects';
+import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
 
 var { height, width } = Dimensions.get('window')
 
@@ -19,17 +19,8 @@ class ProfileScreen extends React.Component {
       age: '19',
     }
   }
-  static navigationOptions = {
 
-    drawerIcon: () => (
-      <Image
-        source={{ uri: `https://dummyimage.com/60x60/000/fff.jpg&text=1` }}
-        style={{ width: 30, height: 30, borderRadius: 15, marginBottom: 300 }}
-      />
-    )
-  }
   Load_New_Image = () => {
-    console.log(this.state)
     imageUri0 = 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
     imageUri1 = 'https://ae01.alicdn.com/kf/HTB1GMT9of9TBuNjy1zbq6xpepXaC/Garden-Lake-House-piture-cross-stitch-Full-diamond-Needlework-gift-new-embroidery-mosaic-diy-5D-diamond.jpg_640x640.jpg'
     if (this.state.imageUri == imageUri0) {
@@ -38,7 +29,6 @@ class ProfileScreen extends React.Component {
     else if (this.state.imageUri == imageUri1) {
       this.setState({ imageUri: imageUri0 })
     }
-    console.log(this.state)
   }
   render() {
     const { navigation } = this.props;
@@ -132,7 +122,7 @@ class PictureScreen extends React.Component {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
     return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} force>
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor="black"
@@ -176,14 +166,17 @@ class EditScreen extends React.Component {
     }
   }
   updateProfile(lastPage) {
+    var user = (this.state.userName == '') ? lastPage.state.userName : this.state.userName
+    var location = (this.state.location == '') ? lastPage.state.location : this.state.location
+    var age = (this.state.age == '') ? lastPage.state.age : this.state.age
     lastPage.setState({
-      userName: this.userName,
-      location: this.location,
-      age: this.age,
+      userName: user,
+      location: location,
+      age: age,
     });
     this.props.navigation.navigate('Profile')
   }
-  
+
   render() {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
@@ -203,7 +196,7 @@ class EditScreen extends React.Component {
               color: '#4B9CD3',
               backgroundColor: 'white',
             }}
-            onChangeText={(userName) => lastPage.setState({ userName })}
+            onChangeText={(userName) => this.setState({ userName })}
           />
           <Kaede style={styles.input}
             label={lastPage.state.location}
@@ -216,7 +209,7 @@ class EditScreen extends React.Component {
               color: '#4B9CD3',
               backgroundColor: 'white',
             }}
-            onChangeText={(location) => lastPage.setState({ location })}
+            onChangeText={(location) => this.setState({ location })}
           />
           <Kaede style={styles.input}
             label={lastPage.state.age}
@@ -230,74 +223,113 @@ class EditScreen extends React.Component {
               backgroundColor: 'white',
             }}
             keyboardType="numeric"
-            onChangeText={(age) => lastPage.setState({ age })}
+            onChangeText={(age) => this.setState({ age })}
           />
           </View>
-
-          <View style={styles.container}>
           <View>
-          <TouchableOpacity
-            style={{
-              fontSize: "20%",
-              marginRight: "20%",
-              marginLeft: "20%",
-              marginTop: 10,
-              padding: 1,
-              backgroundColor: '#4B9CD3',
-              borderRadius: 10,
-              //borderWidth: 1,
-              borderColor: '#4B9CD3',
-              top: "10%",
-              width: "19%",
-              height: "11%",
-              left: "55%",
-            }}
-            onPress={() => this.props.navigation.goBack()}
-          //onPress={() => this.updateList(this.state.text)}
+          <FloatingLabelInput 
+          style = {styles.input}
+          label="Email"
           >
-            <Text
+          </FloatingLabelInput>
+          {/* <View style={styles.card2}>
+            <Text style={styles.title}>Madoka</Text>
+            <Madoka
+              style={styles.input}
+              label='Your Name'
+              placeholder={lastPage.state.userName}
+              borderColor={'#4B9CD3'}
+              labelStyle={{ color: '#4B9CD3' }}
+              inputStyle={{ color: '#4B9CD3' }}
+              onChangeText={(userName) => this.setState({ userName })}
+            />
+            <Madoka
+              style={styles.input}
+              label='Location'
+              placeholder={lastPage.state.location}
+              borderColor={'#4B9CD3'}
+              labelStyle={{ color: '#4B9CD3' }}
+              inputStyle={{ color: '#4B9CD3' }}
+              onChangeText={(location) => this.setState({ location })}
+            />
+            <Madoka
+              style={styles.input}
+              label='Age'
+              placeholder={lastPage.state.age}
+              borderColor={'#4B9CD3'}
+              labelStyle={{ color: '#4B9CD3' }}
+              inputStyle={{ color: '#4B9CD3' }}
+              onChangeText={(age) => this.setState({ age })}
+            />
+          </View> */}
+        </View>
+
+        <View style={styles.container}>
+          <View>
+            <TouchableOpacity
               style={{
-                color: 'white',
-                fontSize: 15,
-                padding: 5,
-                alignContent: 'center',
+                fontSize: "20%",
+                marginRight: "20%",
+                marginLeft: "20%",
+                marginTop: 10,
+                padding: 1,
+                backgroundColor: '#4B9CD3',
+                borderRadius: 10,
+                //borderWidth: 1,
+                borderColor: '#4B9CD3',
+                top: "10%",
+                width: "19%",
+                height: 37,
+                left: "55%",
+                alignItems: 'center',
               }}
+              // onPress={() => this.props.navigation.goBack()}
+              onPress={() => this.updateProfile(lastPage)}
             >
-              Submit
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  padding: 5,
+                  alignContent: 'center',
+                }}
+              >
+                Submit
           </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
           </View>
           <View>
-          <TouchableOpacity
-            style={{
-              fontSize: "20%",
-              marginRight: "20%",
-              marginLeft: "20%",
-              marginTop: 10,
-              padding: 1,
-              backgroundColor: '#4B9CD3',
-              borderRadius: 10,
-              //borderWidth: 1,
-              borderColor: '#4B9CD3',
-              top: "10%",
-              width: "19%",
-              height: "30%",
-              right: "10%",
-            }}
-            onPress={() => this.props.navigation.goBack()}
-          //onPress={() => this.updateList(this.state.text)}
-          >
-            <Text
+            <TouchableOpacity
               style={{
-                color: 'white',
-                fontSize: 15,
-                padding: 5,
-                alignContent: 'center',
+                fontSize: "20%",
+                marginRight: "20%",
+                marginLeft: "20%",
+                marginTop: 10,
+                padding: 1,
+                backgroundColor: '#4B9CD3',
+                borderRadius: 10,
+                //borderWidth: 1,
+                borderColor: '#4B9CD3',
+                top: "10%",
+                width: "19%",
+                height: 37,
+                right: "15%",
+                alignItems: 'center',
               }}
+              onPress={() => this.props.navigation.goBack()}
+            //onPress={() => this.updateList(this.state.text)}
             >
-              Submit
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  padding: 5,
+                  alignContent: 'center',
+                }}
+              >
+                Back
           </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -305,6 +337,46 @@ class EditScreen extends React.Component {
   }
 }
 
+class FloatingLabelInput extends React.Component {
+  state = {
+      isFocused: false,
+      text: '',
+    };
+
+  handleFocus = () => this.setState({ isFocused: true });
+  handleBlur = () => this.setState({ isFocused: false });
+  change() {
+    if (this.state.text == '') {
+      this.handleBlur;
+    }
+  }
+
+  render() {
+    const { label, ...props } = this.props;
+    const isFocused  = this.state.isFocused;
+    const labelStyle = {
+      position: 'absolute',
+      left: 0,
+      top: !isFocused ? 18 : 0,
+      fontSize: !isFocused ? 20 : 14,
+      color: !isFocused ? '#aaa' : '#aaa',
+    };
+    return (
+      <View style={{ paddingTop: 18 }}>
+        <Text style={labelStyle}>
+          {label}
+        </Text>
+        <TextInput
+          {...props}
+          style={{ height: 40, fontSize: 20, color: '#000', borderBottomWidth: 3, borderBottomColor: '#4B9CD3' }}
+          onFocus={this.handleFocus}
+          onChangeText={(text) => this.setState({text})}
+          onBlur={this.change}
+        />
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -330,12 +402,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   input: {
-    marginTop: 4,
+    marginTop: "2%",
   },
   title: {
     paddingBottom: 16,
     textAlign: 'center',
-    color: '#404d5b',
+    color: '#4B9CD9',
     fontSize: 20,
     fontWeight: 'bold',
     opacity: 0.8,
@@ -346,6 +418,7 @@ export const ProfileStack = createStackNavigator(
   {
     Profile: {
       screen: ProfileScreen,
+      header: { visible: false }
     },
     Picture: {
       screen: PictureScreen,
