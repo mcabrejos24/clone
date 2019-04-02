@@ -137,6 +137,7 @@ class NewPost extends React.Component { //making a new post
     console.log(lastpageHome)
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}
+
       // onLayout={(event) => {
       //   var {x, y, width, height} = event.nativeEvent.layout
       //   console.log(width)
@@ -194,7 +195,7 @@ class NewPost extends React.Component { //making a new post
             padding: 1,
             backgroundColor:'#4B9CD3',
             borderRadius:10,
-            borderWidth: 1,
+            //borderWidth: 1,
             borderColor: '#4B9CD3',
             bottom: "67%",
             width: "12%",
