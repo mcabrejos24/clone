@@ -9,16 +9,11 @@ import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
 var {height, width} = Dimensions.get('window')
-<<<<<<< HEAD
 
-console.log(width);
-console.log(height);
-=======
 //var {height, width} = Dimensions.get('textinput')
 
 console.log(width)
 console.log(height)
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
 
 class LogoTitle extends React.Component {
   render() {
@@ -170,19 +165,12 @@ class NewPost extends React.Component { //making a new post
   render() {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}
-<<<<<<< HEAD
-      onLayout = {(event) => {
-        var {x, y, width, height} = event.nativeEvent.layout;
-        console.log(width);
-        console.log(height);
-      }}
-=======
+
       // onLayout={(event) => {
       //   var {x, y, width, height} = event.nativeEvent.layout
       //   console.log(width)
       //   console.log(height)
       // }}
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
       >
         <StatusBar
           barStyle="dark-content"
@@ -194,11 +182,7 @@ class NewPost extends React.Component { //making a new post
             fontSize: 30,
             marginRight: 15,
             //right: 140,
-<<<<<<< HEAD
-            bottom: "38%",
-=======
             bottom: "24%",
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
             left: 30,
           }}
           onPress={() => this.props.navigation.goBack()}
@@ -220,19 +204,11 @@ class NewPost extends React.Component { //making a new post
           style={{
             padding: 5,
             margin: 5,
-<<<<<<< HEAD
-            height: "4.85%",
-            width: "90%", 
-            // borderColor: 'black', 
-            // borderWidth: 1,
-            bottom: 215,
-=======
             height: "35%", 
             width: "85%",
             //borderColor: 'black', 
             //borderWidth: 1,
             bottom: "22.6%",
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
             left: 20,
             //right: 100,
           }}
@@ -243,29 +219,17 @@ class NewPost extends React.Component { //making a new post
             fontSize: "20%",
             marginRight: "20%",
             marginLeft: "20%",
-<<<<<<< HEAD
-            marginTop:10,
-             padding: 1,
-=======
             marginTop: 10,
             padding: 1,
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
             backgroundColor:'#4B9CD3',
             borderRadius:10,
             //borderWidth: 1,
             borderColor: '#4B9CD3',
-<<<<<<< HEAD
-            bottom: "50%",
-            width: "14%",
-            height: "5%",
-            left: "59%",
-=======
             bottom: "67%",
             width: "12%",
             height: "5%",
             left: "59%",
             
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
           }}
           onPress={() => this.updateList(this.state.text)}
           //onPress={() => this.updateList(this.state.text)}
@@ -275,11 +239,7 @@ class NewPost extends React.Component { //making a new post
             color: 'white',
             fontSize: 15,
             padding: 5,
-<<<<<<< HEAD
-            alignContent: 'center'
-=======
             alignContent: 'center',
->>>>>>> 4fb26b26d8c258b17c9db6089e93d33645ae4145
           }}
           >
             Post
