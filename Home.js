@@ -8,11 +8,12 @@ import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
 
-var {height, width} = Dimensions.get('window')
-//var {height, width} = Dimensions.get('textinput')
+var {height, width} = Dimensions.get('window')  //to get the height and width
+var self //for a global variable of this
 
 console.log(width)
 console.log(height)
+
 
 class LogoTitle extends React.Component {
   render() {
@@ -26,19 +27,18 @@ class LogoTitle extends React.Component {
   }
 }
 
-state = {
-  data: [
-    {key: 'Devin'},
-    {key: 'Jackson'},
-  ],
-};
-
 class HomeScreen extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   //this.state = list
-  //   console.log(props)
-  // }
+  constructor() {
+    super();
+    self = this;
+    this.state = {
+      data: [
+        {key: 'Devin'},
+        {key: 'Jackson'},
+      ],
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: <LogoTitle />,
@@ -58,7 +58,9 @@ class HomeScreen extends React.Component {
       ),
       headerRight: (
         <TouchableOpacity 
-          onPress={() => navigation.navigate('NewPost')}
+          onPress={() => navigation.navigate('NewPost', { page: self } )}
+          //onPress={() => navigation.getParam('callfunc')}
+          //onPress={state.params._handleFilterPress()}
           style = {{
             fontSize: 32,
             marginRight: 15,
@@ -81,32 +83,12 @@ class HomeScreen extends React.Component {
     };
   };
 
-  update() {
-    //state.data[0].key = 'hey'
-    console.log(state.data[0].key)
-    this.setState({
-      data: [
-        {key: 'me'},
-        {key: 'you'},
-      ],
-    })
+  loadNewPost = (newText) => {
+    this.setState({ data: [
+      {key: newText},
+      {key: 'something new'},
+    ], },)
   }
-
-  // state = {
-  //   count: 0,
-  // };
-
-  state = {
-    data: [
-      {key: 'Devin'},
-      {key: 'Jackson'},
-    ],
-  };
-
-  _increaseCount = () => {
-    this.setState({ count: this.state.count + 1});
-  }
-  //from last time
 
   render() {
     return (
@@ -118,50 +100,41 @@ class HomeScreen extends React.Component {
           backgroundColor="#6a51ae"
         />
         <FlatList 
-        data={state.data}
+        data={this.state.data}
         //data
         renderItem={({item}) => <Text style={{padding: 10,
           fontSize: 18,
           height: 44,}}>{item.key}</Text>}
         
         />
-        <Text>{state.data[0].key}</Text>
+        {/* <Text>{this.state.data[0].key}</Text> */}
         <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
         <Text>Check back here any time to find posts from people you follow.</Text>
-        {/* <Text> Count: {this.state.count}</Text> */}
-        <Text> Count: {this.state.data[0].key}</Text>
-        {/* we're check here to see how to update it with a global, from last time */}
-        <Button onPress={() => this.update()} title='this' /> 
+        <Button onPress={() => this.props.navigation.navigate('NewPost', { page: this } )} title='this' /> 
       </View>
       </ScrollView>
     );
   }
 }
 
+
 class NewPost extends React.Component { //making a new post
   constructor(props) {
     super(props);
     this.state = {text: ''};
   }
+
   //obiwon
-  updateList(newText) {
-    //this.getParam('change')
-    state.data[0].key = newText
-    alert(state.data[0].key)
+  updateList(newText, lastpageHome) {
+    lastpageHome.loadNewPost(newText)
     this.props.navigation.goBack()
-    //this.props.navigation.
-    //state.data[0].key
   }
 
-  changeList = () => {
-    //this.setState({ state.data[0].key:  });
-  }
-
-  componentDidMount() {
-    //this.props.navigation.setParams({ change: this.changeList})
-  }
 
   render() {
+    const { navigation } = this.props;
+    const lastpageHome = navigation.getParam('page');
+    console.log(lastpageHome)
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}
       // onLayout={(event) => {
@@ -229,8 +202,7 @@ class NewPost extends React.Component { //making a new post
             left: "59%",
             
           }}
-          onPress={() => this.updateList(this.state.text)}
-          //onPress={() => this.updateList(this.state.text)}
+          onPress={() => this.updateList(this.state.text, lastpageHome)}
         >
           <Text 
           style={{
