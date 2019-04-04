@@ -3,9 +3,13 @@ import { Button, SafeAreaView, Text, View, StyleSheet, TextInput, Dimensions, Fl
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { SearchBar, Input, Header, ListItem } from 'react-native-elements';
 import App from './App';
+import Icon from 'react-native-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { Ionicons } from '@expo/vector-icons';
 
 
 var {height, width} = Dimensions.get('window')
+var likes = 0
 
 const list = [
   {
@@ -25,11 +29,6 @@ const list = [
   },
   
 ]
-
-
-
-
-
 
  
 
@@ -84,11 +83,23 @@ class NotificationsScreen extends React.Component {
 
 keyExtractor = ( item , index) => index.toString()
 
+
 renderItem = ({ item }) => (
   <ListItem
     title={item.name}
     subtitle={item.subtitle}
     leftAvatar={{ source: { uri: item.avatar_url }}}
+    //badge={{ value: likes, textStyle: { color: 'white' }, containerStyle: { marginTop: -20 } }}
+    rightIcon={
+      <Ionicons
+      name =  {"md-heart"} 
+      color= {"red"}
+      size = {25}
+      onPress={() => alert('You Liked the Jelly')}
+     
+      />
+    }
+   // onPress={}
     //style={{alignItems: "left", justifyContent: "left" }} 
 
   />
@@ -114,7 +125,7 @@ renderItem = ({ item }) => (
         ref={search => this.search = search}
         platform = 'ios'
         placeholder="Type Here..."
-       containerStyle = {{ backgroundColor: '#4B9CD3', bottom: '5%', paddingTop: '12%', paddingBottom: '-15%' }}
+       containerStyle = {{ backgroundColor: '#4B9CD3', bottom: '6%', paddingTop: '12%', paddingBottom: '-15%' }}
       // containerStyle = {{ backgroundColor: '#4B9CD3'}}
         cancelButtonProps = {{ color: 'white'}}
         onChangeText={this.updateSearch}
