@@ -20,6 +20,7 @@ class IconWithBadge extends React.Component {
     return (
       <View style={{ width: 24, height: 24, margin: 5 }}>
         <Ionicons name={name} size={size} color={color} />
+        
         {badgeCount > 0 && (
           <View
             style={{
@@ -45,9 +46,12 @@ class IconWithBadge extends React.Component {
   }
 }
 
+
 const NotificationIconWithBadge = props => {
+  //something = this;
   // You should pass down the badgeCount in some other ways like context, redux, mobx or event emitters.
   return <IconWithBadge {...props} badgeCount={3} />;
+ 
 };
 
 const ChatIconWithBadge = props => {
@@ -67,8 +71,10 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
       IconComponent = ChatIconWithBadge;
   } else if (routeName === 'Notifications') {
       iconName = `ios-notifications${focused ? '' : '-outline'}`;
+      
       // We want to add badges to home tab icon
       IconComponent = NotificationIconWithBadge;
+    
   }
 
   // You can return any component that you like here!
