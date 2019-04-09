@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, TextInput, SafeAreaView, Text, View, StyleSheet, Image, Dimensions, Platform, StatusBar } from 'react-native'
+import { TouchableOpacity, TextInput, SafeAreaView, Text, View, StyleSheet, Image, Dimensions, ScrollView, StatusBar } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint } from '@fortawesome/free-solid-svg-icons'
@@ -17,6 +17,7 @@ class ProfileScreen extends React.Component {
       userName: 'Enzohuang',
       location: 'Chongqing, China',
       age: '19',
+      bio: 'A little bio about myself'
     }
   }
 
@@ -88,8 +89,8 @@ class ProfileScreen extends React.Component {
                 color: "white",
                 textAlign: "center"
               }}>
-              A little bio about myself
-        </Text>
+              {this.state.bio}
+            </Text>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("Edit", { page: this })}>
               <Image style={{
@@ -163,16 +164,20 @@ class EditScreen extends React.Component {
       userName: '',
       location: '',
       age: '',
+      bio: '',
+      length: 35,
     }
   }
   updateProfile(lastPage) {
     var user = (this.state.userName == '') ? lastPage.state.userName : this.state.userName
     var location = (this.state.location == '') ? lastPage.state.location : this.state.location
     var age = (this.state.age == '') ? lastPage.state.age : this.state.age
+    var bio = (this.state.bio == '') ? lastPage.state.bio : this.state.bio
     lastPage.setState({
       userName: user,
       location: location,
       age: age,
+      bio: bio,
     });
     this.props.navigation.navigate('Profile')
   }
@@ -182,12 +187,12 @@ class EditScreen extends React.Component {
     const lastPage = navigation.getParam('page');
     return (
 
-      <View>
+      <ScrollView>
         <View style={[styles.card1, { backgroundColor: 'white' }]}>
           <Text style={styles.title}>Edit Your Profile</Text>
           <Kaede style={styles.input}
-            label={lastPage.state.userName}
-            placeholder='your name'
+            label="User Name"
+            placeholder={lastPage.state.userName}
             labelStyle={{
               color: 'white',
               backgroundColor: '#4B9CD3',
@@ -199,8 +204,8 @@ class EditScreen extends React.Component {
             onChangeText={(userName) => this.setState({ userName })}
           />
           <Kaede style={styles.input}
-            label={lastPage.state.location}
-            placeholder='your location'
+            label="Location"
+            placeholder={lastPage.state.location}
             labelStyle={{
               color: 'white',
               backgroundColor: '#4B9CD3',
@@ -212,8 +217,8 @@ class EditScreen extends React.Component {
             onChangeText={(location) => this.setState({ location })}
           />
           <Kaede style={styles.input}
-            label={lastPage.state.age}
-            placeholder='your Age'
+            label="Age"
+            placeholder={lastPage.state.age}
             labelStyle={{
               color: 'white',
               backgroundColor: '#4B9CD3',
@@ -225,45 +230,29 @@ class EditScreen extends React.Component {
             keyboardType="numeric"
             onChangeText={(age) => this.setState({ age })}
           />
-          </View>
-          <View>
-          <FloatingLabelInput 
-          style = {styles.input}
-          label="Email"
-          >
-          </FloatingLabelInput>
-          {/* <View style={styles.card2}>
-            <Text style={styles.title}>Madoka</Text>
-            <Madoka
-              style={styles.input}
-              label='Your Name'
-              placeholder={lastPage.state.userName}
-              borderColor={'#4B9CD3'}
-              labelStyle={{ color: '#4B9CD3' }}
-              inputStyle={{ color: '#4B9CD3' }}
-              onChangeText={(userName) => this.setState({ userName })}
-            />
-            <Madoka
-              style={styles.input}
-              label='Location'
-              placeholder={lastPage.state.location}
-              borderColor={'#4B9CD3'}
-              labelStyle={{ color: '#4B9CD3' }}
-              inputStyle={{ color: '#4B9CD3' }}
-              onChangeText={(location) => this.setState({ location })}
-            />
-            <Madoka
-              style={styles.input}
-              label='Age'
-              placeholder={lastPage.state.age}
-              borderColor={'#4B9CD3'}
-              labelStyle={{ color: '#4B9CD3' }}
-              inputStyle={{ color: '#4B9CD3' }}
-              onChangeText={(age) => this.setState({ age })}
-            />
-          </View> */}
         </View>
-
+        <View>
+          <FloatingLabelInput
+            style={styles.input}
+            label="Bio"
+            onChangeText={(bio) => this.setState({ bio })}
+            placeholder="A little bio about myself"
+            clearButtonMode='always'
+          >
+            {lastPage.state.bio}
+          </FloatingLabelInput>
+        </View>
+        <View>
+          <Text 
+            style = {{
+              color: '#aaa',
+              fontSize: 10,
+              marginLeft: 5
+            }}
+          >
+            {35-this.state.bio.length}/35
+          </Text>
+        </View>
         <View style={styles.container}>
           <View>
             <TouchableOpacity
@@ -271,49 +260,16 @@ class EditScreen extends React.Component {
                 fontSize: "20%",
                 marginRight: "20%",
                 marginLeft: "20%",
-                marginTop: 10,
+                marginTop: "30%",
                 padding: 1,
                 backgroundColor: '#4B9CD3',
                 borderRadius: 10,
                 //borderWidth: 1,
                 borderColor: '#4B9CD3',
                 top: "10%",
-                width: "19%",
-                height: 37,
-                left: "55%",
-                alignItems: 'center',
-              }}
-              // onPress={() => this.props.navigation.goBack()}
-              onPress={() => this.updateProfile(lastPage)}
-            >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 15,
-                  padding: 5,
-                  alignContent: 'center',
-                }}
-              >
-                Submit
-          </Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={{
-                fontSize: "20%",
-                marginRight: "20%",
-                marginLeft: "20%",
-                marginTop: 10,
-                padding: 1,
-                backgroundColor: '#4B9CD3',
-                borderRadius: 10,
-                //borderWidth: 1,
-                borderColor: '#4B9CD3',
-                top: "10%",
-                width: "19%",
-                height: 37,
-                right: "15%",
+                width: "35%",
+                left: "5%",
+                height: "48%",
                 alignItems: 'center',
               }}
               onPress={() => this.props.navigation.goBack()}
@@ -328,32 +284,57 @@ class EditScreen extends React.Component {
                 }}
               >
                 Back
-          </Text>
+              </Text>
             </TouchableOpacity>
           </View>
+          <View>
+            <TouchableOpacity
+              style={{
+                fontSize: "20%",
+                marginRight: "20%",
+                marginLeft: "20%",
+                marginTop: "30%",
+                padding: 1,
+                backgroundColor: '#4B9CD3',
+                borderRadius: 10,
+                //borderWidth: 1,
+                borderColor: '#4B9CD3',
+                top: "10%",
+                width: "35%",
+                height: "48%",
+                left: "20%",
+                alignItems: 'center',
+              }}
+              // onPress={() => this.props.navigation.goBack()}
+              onPress={() => this.updateProfile(lastPage)}
+            >
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  padding: 5,
+                  alignContent: 'center',
+                }}
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+          
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
 
 class FloatingLabelInput extends React.Component {
   state = {
-      isFocused: false,
-      text: '',
-    };
-
-  handleFocus = () => this.setState({ isFocused: true });
-  handleBlur = () => this.setState({ isFocused: false });
-  change() {
-    if (this.state.text == '') {
-      this.handleBlur;
-    }
-  }
+    isFocused: true,
+  };
 
   render() {
     const { label, ...props } = this.props;
-    const isFocused  = this.state.isFocused;
+    const isFocused = this.state.isFocused;
     const labelStyle = {
       position: 'absolute',
       left: 0,
@@ -362,16 +343,17 @@ class FloatingLabelInput extends React.Component {
       color: !isFocused ? '#aaa' : '#aaa',
     };
     return (
-      <View style={{ paddingTop: 18 }}>
+      <View style={{
+        paddingTop: 18,
+        marginLeft: 5,
+        width: "97%"
+      }}>
         <Text style={labelStyle}>
           {label}
         </Text>
         <TextInput
           {...props}
-          style={{ height: 40, fontSize: 20, color: '#000', borderBottomWidth: 3, borderBottomColor: '#4B9CD3' }}
-          onFocus={this.handleFocus}
-          onChangeText={(text) => this.setState({text})}
-          onBlur={this.change}
+          style={{ height: 40, fontSize: 15, color: '#000', borderBottomWidth: 3, borderBottomColor: '#4B9CD3' }}
         />
       </View>
     );
@@ -385,11 +367,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     // height = "30%"
-  },
-  container: {
-    flex: 1,
-    paddingTop: 24,
-    backgroundColor: 'white',
   },
   content: {
     // not cool but good enough to make all inputs visible when keyboard is active
