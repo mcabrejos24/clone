@@ -17,6 +17,7 @@ class ProfileScreen extends React.Component {
       userName: 'Enzohuang',
       location: 'Chongqing, China',
       age: '19',
+      bio: 'A little bio about myself'
     }
   }
 
@@ -88,7 +89,7 @@ class ProfileScreen extends React.Component {
                 color: "white",
                 textAlign: "center"
               }}>
-              A little bio about myself
+              {this.state.bio}
         </Text>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("Edit", { page: this })}>
@@ -163,16 +164,19 @@ class EditScreen extends React.Component {
       userName: '',
       location: '',
       age: '',
+      bio: '',
     }
   }
   updateProfile(lastPage) {
     var user = (this.state.userName == '') ? lastPage.state.userName : this.state.userName
     var location = (this.state.location == '') ? lastPage.state.location : this.state.location
     var age = (this.state.age == '') ? lastPage.state.age : this.state.age
+    var bio = (this.state.bio == '') ? lastPage.state.bio : this.state.bio
     lastPage.setState({
       userName: user,
       location: location,
       age: age,
+      bio: bio
     });
     this.props.navigation.navigate('Profile')
   }
@@ -231,6 +235,7 @@ class EditScreen extends React.Component {
           style = {styles.input}
           label="Email"
           >
+          onChangeText={(bio) => this.setState({bio})}
           </FloatingLabelInput>
           {/* <View style={styles.card2}>
             <Text style={styles.title}>Madoka</Text>
@@ -339,17 +344,8 @@ class EditScreen extends React.Component {
 
 class FloatingLabelInput extends React.Component {
   state = {
-      isFocused: false,
-      text: '',
+      isFocused: true,
     };
-
-  handleFocus = () => this.setState({ isFocused: true });
-  handleBlur = () => this.setState({ isFocused: false });
-  change() {
-    if (this.state.text == '') {
-      this.handleBlur;
-    }
-  }
 
   render() {
     const { label, ...props } = this.props;
@@ -369,9 +365,6 @@ class FloatingLabelInput extends React.Component {
         <TextInput
           {...props}
           style={{ height: 40, fontSize: 20, color: '#000', borderBottomWidth: 3, borderBottomColor: '#4B9CD3' }}
-          onFocus={this.handleFocus}
-          onChangeText={(text) => this.setState({text})}
-          onBlur={this.change}
         />
       </View>
     );
