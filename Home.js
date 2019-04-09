@@ -3,6 +3,7 @@ import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
+import { SearchBar, Input, Header, ListItem } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
@@ -13,6 +14,12 @@ var self //for a global variable of this
 
 //console.log(width)
 //console.log(height)
+//------------------------------use above to find width and height of whole screen and bottom for a specific view
+// onLayout={(event) => {
+//   var {x, y, width, height} = event.nativeEvent.layout
+//   console.log(width)
+//   console.log(height)
+// }}
 
 
 class LogoTitle extends React.Component {
@@ -32,8 +39,16 @@ class HomeScreen extends React.Component {
     self = this;
     this.state = {
       data: [
-        {key: 'Devin'},
-        {key: 'Jackson'},
+        // {
+        //   name: 'Harrison',
+        //   subtitle: 'Trying out this new social media!',
+        //   avatar_url: 'https://pbs.twimg.com/profile_images/914721150168698880/V3BKN27M_200x200.jpg',
+        // },
+        // {
+        //   name: 'Enzo',
+        //   subtitle: 'This is chill.',
+        //   avatar_url: 'https://scontent-yyz1-1.cdninstagram.com/vp/1fc2708e73ddfc92c3de18853256b41d/5D12B475/t51.2885-19/s150x150/14714595_372764783059210_1813347707905900544_a.jpg?_nc_ht=scontent-yyz1-1.cdninstagram.com',
+        // },
       ],
     }
   }
@@ -65,7 +80,7 @@ class HomeScreen extends React.Component {
             marginRight: 15,
           }}
         >
-          <FontAwesomeIcon 
+          <FontAwesomeIcon
             icon={ faPlusCircle } size={25} style={{ width: 24, height: 24, color: 'white' }}
             // I think the width and height don't do anything because need to do it with size and isn't a picture so might take off
           />
@@ -82,37 +97,89 @@ class HomeScreen extends React.Component {
     };
   };
 
-  loadNewPost = (newText) => {
-    this.setState({ data: [
-      {key: newText},
-      {key: 'something new'},
-    ], },)
+  // loadNewPost = (newText) => {
+  //   this.setState({ data: [
+  //     {key: newText},
+  //     {key: 'something new'},
+  //   ], },)
+  // }
+
+  loadNewPost = (newText, user) => {
+    if(user == null) {
+      user = 'Morgan Freeman';
+    }
+    let newUserPost = {
+      name: user,
+      subtitle: newText,
+      avatar_url: 'https://i.pinimg.com/236x/16/73/2a/16732a398812e81f9e15d2d1f819cce9--morgan-freeman.jpg?b=t',
+    };
+    this.state.data.push(newUserPost);
+    this.setState({ data: this.state.data, },)
   }
 
+  keyExtractor = ( item , index) => index.toString()
+
+  renderItem = ({ item }) => (
+    <ListItem
+      title={item.name}
+      subtitle={item.subtitle}
+      leftAvatar={{ source: { uri: item.avatar_url }}}
+      //badge={{ value: likes, textStyle: { color: 'white' }, containerStyle: { marginTop: -20 } }}
+      rightIcon={
+        <Ionicons
+        name =  {"md-heart"} 
+        color= {"red"}
+        size = {25}
+        onPress={() => alert('You Liked the Jelly')}
+       
+        />
+      }
+     // onPress={}
+      //style={{alignItems: "left", justifyContent: "left" }} 
+  
+    />
+  )
+
   render() {
-    return (
-      
-      <ScrollView>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="#6a51ae"
-        />
-        <FlatList 
-        data={this.state.data}
-        //data
-        renderItem={({item}) => <Text style={{padding: 10,
-          fontSize: 18,
-          height: 44,}}>{item.key}</Text>}
-        
-        />
-        {/* <Text>{this.state.data[0].key}</Text> */}
-        <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
-        <Text>Check back here any time to find posts from people you follow.</Text>
-        <Button onPress={() => this.props.navigation.navigate('NewPost', { page: this } )} title='this' /> 
-      </View>
-      </ScrollView>
-    );
+    if(this.state.data.length == 0){
+      return (
+        <ScrollView>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#6a51ae"
+          />
+          <FlatList 
+          data={this.state.data}
+          extraData={this.state}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+          />
+
+          <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
+          <Text>Check back here any time to find posts from people you follow.</Text>
+        </View>
+        </ScrollView>
+      );
+    } else {
+      return (
+        <ScrollView>
+        {/* <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}> */}
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#6a51ae"
+          />
+          <FlatList 
+          data={this.state.data}
+          extraData={this.state}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+          />
+        </View>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -133,16 +200,9 @@ class NewPost extends React.Component { //making a new post
   render() {
     const { navigation } = this.props;
     const lastpageHome = navigation.getParam('page');
-    console.log(lastpageHome)
+   // console.log(lastpageHome)
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}
-
-      // onLayout={(event) => {
-      //   var {x, y, width, height} = event.nativeEvent.layout
-      //   console.log(width)
-      //   console.log(height)
-      // }}
-      >
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor="black"
