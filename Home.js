@@ -158,6 +158,7 @@ class HomeScreen extends React.Component {
 
           <Text style={{fontSize:25}}>Welcome to Clone!{"\n"}</Text>
           <Text>Check back here any time to find posts from people you follow.</Text>
+          
         </View>
         </ScrollView>
       );
@@ -181,6 +182,7 @@ class HomeScreen extends React.Component {
       );
     }
   }
+
 }
 
 
