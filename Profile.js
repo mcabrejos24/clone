@@ -66,7 +66,11 @@ class ProfileScreen extends React.Component {
             <Text
               style={{
                 fontWeight: "bold",
+<<<<<<< HEAD
                 fontSize: "28%",
+=======
+                fontSize: 25,
+>>>>>>> f24d979d7fc8312ad6bb4fe387f05f8fcd450194
                 marginTop: 10,
                 marginBottom: 0,
                 color: "white",
@@ -77,7 +81,11 @@ class ProfileScreen extends React.Component {
             <Text
               style={{
                 fontWeight: "normal",
+<<<<<<< HEAD
                 fontSize: "17%",
+=======
+                fontSize: 20,
+>>>>>>> f24d979d7fc8312ad6bb4fe387f05f8fcd450194
                 marginTop: 10,
                 marginBottom: 0,
                 color: "white",
@@ -89,7 +97,11 @@ class ProfileScreen extends React.Component {
               style={{
                 fontWeight: "normal",
                 fontStyle: 'italic',
+<<<<<<< HEAD
                 fontSize: "13%",
+=======
+                fontSize: 15,
+>>>>>>> f24d979d7fc8312ad6bb4fe387f05f8fcd450194
                 marginTop: 30,
                 marginBottom: 0,
                 color: "white",
@@ -188,9 +200,16 @@ class EditScreen extends React.Component {
     this.props.navigation.navigate('Profile')
   }
 
+  updateBio() {
+    this.setState({
+      bio: lastPage.state.bio
+    })
+  }
+
   render() {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
+    var length = this.state.bio.length;
     return (
 
       <ScrollView>
@@ -256,7 +275,11 @@ class EditScreen extends React.Component {
               marginLeft: 5
             }}
           >
+<<<<<<< HEAD
             {35-this.state.bio.length}/35
+=======
+            {35-length}/35
+>>>>>>> f24d979d7fc8312ad6bb4fe387f05f8fcd450194
           </Text>
         </View>
         <View style={styles.container}>
