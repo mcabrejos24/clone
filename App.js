@@ -11,7 +11,9 @@ import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
 import { NotificationsStack } from './Notifications.js'
-import { SignInScreen } from './SignInScreen.js'
+import { SignStack } from './SignIn.js'
+import { SignUpScreen } from './SignUp.js'
+import { ForgotScreen } from './Forgot.js'
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -147,7 +149,17 @@ const TabNavigator = createBottomTabNavigator({
 
 );
 
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ 
+  SignIn: {
+    screen: SignStack,
+  },
+  // SignUp: {
+  //   screen: SignUpScreen,
+  // },
+  // Forgot: {
+  //   screen: ForgotScreen,
+  // }
+});
 
 //const AppContainer = createAppContainer(TabNavigator);
 

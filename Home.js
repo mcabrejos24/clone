@@ -105,13 +105,26 @@ class HomeScreen extends React.Component {
   // }
 
   loadNewPost = (newText, user) => {
+    //-------------------------this is just text code
+    users = ['Morgan Freeman', 'Harrison Reid', 'Dom Giordano', 'Enzo Huang', 'Iron Man', 'Thanos']
+    avatars = [
+      'https://i.pinimg.com/236x/16/73/2a/16732a398812e81f9e15d2d1f819cce9--morgan-freeman.jpg?b=t',
+      'https://pbs.twimg.com/profile_images/914721150168698880/V3BKN27M_200x200.jpg',
+      'https://pbs.twimg.com/profile_images/1089779954148130817/PH_LiD8h_400x400.jpg',
+      'https://scontent-yyz1-1.cdninstagram.com/vp/1fc2708e73ddfc92c3de18853256b41d/5D12B475/t51.2885-19/s150x150/14714595_372764783059210_1813347707905900544_a.jpg?_nc_ht=scontent-yyz1-1.cdninstagram.com',
+      'https://assets.faceit-cdn.net/avatars/c1bd800c-1770-4b1f-879f-52f27c84c6f4_1551064917661.jpg',
+      'https://swishtoday.com/wordpress/wp-content/uploads/2018/12/93ee86a7b97b1e1c207579f298ef97a0cf2d2f1bv2hqjpg-1024x914.',
+    ]
+    //--------------------------
     if(user == null) {
-      user = 'Morgan Freeman';
+      var random = Math.floor(Math.random()*(users.length))
+      user = users[random]
+      avatar = avatars[random]
     }
     let newUserPost = {
       name: user,
       subtitle: newText,
-      avatar_url: 'https://i.pinimg.com/236x/16/73/2a/16732a398812e81f9e15d2d1f819cce9--morgan-freeman.jpg?b=t',
+      avatar_url: avatar,
     };
     this.state.data.push(newUserPost);
     this.setState({ data: this.state.data, },)
