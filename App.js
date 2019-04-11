@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, SafeAreaView, Text, View, StyleSheet } from 'react-native'
+import { Button, SafeAreaView, Text, View, StyleSheet, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native'
 import { Svg } from 'expo'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer, createBottomTabNavigator, createSwitchNavigator } from "react-navigation";
 import { Ionicons } from '@expo/vector-icons';
 
 import { HomeStack } from './Home.js'
@@ -11,8 +11,33 @@ import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
 import { NotificationsStack } from './Notifications.js'
+import { SignInScreen } from './SignInScreen.js'
 
+class AuthLoadingScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this._bootstrapAsync();
+  }
 
+  // Fetch the token from storage then navigate to our appropriate place
+  _bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    // This will switch to the App screen or Auth screen and this loading
+    // screen will be unmounted and thrown away.
+    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+  };
+
+  // Render any loading content that you like here
+  render() {
+    return (
+      <View>
+        <ActivityIndicator />
+        <StatusBar barStyle="default" />
+      </View>
+    );
+  }
+}
 
 class IconWithBadge extends React.Component {
   render() {
@@ -99,6 +124,8 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 
 
+
+
 //export default createAppContainer(AppNavigator);
 const TabNavigator = createBottomTabNavigator({
     Home: HomeStack,
@@ -120,7 +147,21 @@ const TabNavigator = createBottomTabNavigator({
 
 );
 
-const AppContainer = createAppContainer(TabNavigator);
+const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+
+//const AppContainer = createAppContainer(TabNavigator);
+
+const AppContainer = createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: TabNavigator,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  }
+
+));
 
 export default class App extends React.Component {
   render() {
