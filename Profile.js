@@ -7,7 +7,6 @@ import ImageOverlay from "react-native-image-overlay";
 import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
 
 var { height, width } = Dimensions.get('window')
-var bio = 'a little bio about myself'
 
 
 class ProfileScreen extends React.Component {
@@ -18,7 +17,7 @@ class ProfileScreen extends React.Component {
       userName: 'Enzohuang',
       location: 'Chongqing, China',
       age: '19',
-      bio: bio
+      bio: 'a little bio about myself'
     }
   }
 
