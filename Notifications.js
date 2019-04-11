@@ -38,12 +38,18 @@ class NotificationsScreen extends React.Component {
   };
   updateSearch = search => {
     this.setState({ search });
+    
+
+
   };
   
   
   constructor(props) {
     super(props);
     this.state = { text: 'Useless Placeholder',
+    loading: false,      
+    data: [],      
+    error: null,  
     data: [
       {key: 'First'},
       {key: 'Last'},
@@ -80,6 +86,17 @@ class NotificationsScreen extends React.Component {
     }
   
   };
+
+  // searchFilterFunction = search => {    
+  //   const newData = this.list.filter(item => {      
+  //     const itemData = `${item.name.toUpperCase()}`;
+  //      const textData = search.toUpperCase();
+        
+  //      return itemData.indexOf(textData) > -1;    
+  //   });    
+  //   this.setState({ data: newData });  
+  // };
+
 
 keyExtractor = ( item , index) => index.toString()
 
@@ -129,6 +146,8 @@ renderItem = ({ item }) => (
       // containerStyle = {{ backgroundColor: '#4B9CD3'}}
         cancelButtonProps = {{ color: 'white'}}
         onChangeText={this.updateSearch}
+       // onChangeText={search => this.searchFilterFunction(search)}
+       
         value={search}  
         
         
