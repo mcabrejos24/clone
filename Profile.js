@@ -7,6 +7,7 @@ import ImageOverlay from "react-native-image-overlay";
 import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
 
 var { height, width } = Dimensions.get('window')
+var bio = 'a little bio about myself'
 
 
 class ProfileScreen extends React.Component {
@@ -17,7 +18,7 @@ class ProfileScreen extends React.Component {
       userName: 'Enzohuang',
       location: 'Chongqing, China',
       age: '19',
-      bio: 'A little bio about myself'
+      bio: bio
     }
   }
 
@@ -41,7 +42,12 @@ class ProfileScreen extends React.Component {
             height: height,
           }}
           contentPosition="bottom">
-          <SafeAreaView>
+          <SafeAreaView  style={{flex: 1, alignItems: "center", justifyContent: "center"}} 
+          onLayout={(event) => {
+            var {x, y, width, height} = event.nativeEvent.layout
+            console.log(width)
+            console.log(height)
+          }}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("Picture", { page: this })}>
               <Image style={{
@@ -50,7 +56,8 @@ class ProfileScreen extends React.Component {
                 borderRadius: 75,
                 borderWidth: 5,
                 borderColor: "#4B9CD3",
-                marginHorizontal: width / 2,
+                // marginHorizontal: width / 2,
+                // marginTop: "25%",
                 marginBottom: 0
               }}
                 source={{ uri: this.state.imageUri }}
@@ -60,7 +67,7 @@ class ProfileScreen extends React.Component {
             <Text
               style={{
                 fontWeight: "bold",
-                fontSize: 30,
+                fontSize: "28%",
                 marginTop: 10,
                 marginBottom: 0,
                 color: "white",
@@ -71,7 +78,7 @@ class ProfileScreen extends React.Component {
             <Text
               style={{
                 fontWeight: "normal",
-                fontSize: 15,
+                fontSize: "17%",
                 marginTop: 10,
                 marginBottom: 0,
                 color: "white",
@@ -83,7 +90,7 @@ class ProfileScreen extends React.Component {
               style={{
                 fontWeight: "normal",
                 fontStyle: 'italic',
-                fontSize: 12,
+                fontSize: "13%",
                 marginTop: 30,
                 marginBottom: 0,
                 color: "white",
@@ -99,7 +106,7 @@ class ProfileScreen extends React.Component {
 
                 marginHorizontal: width / 2 + 60,
                 marginTop: "8%",
-                marginBottom: "80%",
+                marginBottom: "40%",
 
               }}
                 source={{ uri: "https://heroeshearth.com/images/icon-edit.png" }}
