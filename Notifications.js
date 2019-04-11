@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, SafeAreaView, Text, View, StyleSheet, TextInput, Dimensions, FlatList} from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { SearchBar, Input, Header, ListItem } from 'react-native-elements';
-import App from './App';
+//import App from './App';
 import Icon from 'react-native-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Ionicons } from '@expo/vector-icons';
@@ -132,8 +132,8 @@ renderItem = ({ item }) => (
       
      onLayout={(event) => {
        var {x, y, width, height} = event.nativeEvent.layout
-      // console.log(width)
-      // console.log(height)
+       //console.log(width)
+       //console.log(height)
      }}
       >
 
