@@ -197,9 +197,6 @@ class EditScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
-    this.setState({
-      bio : lastPage.state.bio
-    })
     var length = this.state.bio.length;
     return (
 
