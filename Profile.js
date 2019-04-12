@@ -5,19 +5,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint } from '@fortawesome/free-solid-svg-icons'
 import ImageOverlay from "react-native-image-overlay";
 import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
+import { Camera, BarCodeScanner, Permissions } from 'expo';
 
 var { height, width } = Dimensions.get('window')
-
+const options = {
+  title : "My pic",
+  takePhoto : "Take Photo",
+  choosePhoto : "Choose Photo"
+}
 
 class ProfileScreen extends React.Component {
   constructor() {
     super();
     this.state = {
       imageUri: 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-      userName: 'Enzohuang',
+      name: 'Enzo huang',
+      userName: 'enzohuang7582',
       location: 'Chongqing, China',
       age: '19',
-      bio: 'a little bio about myself'
+      bio: 'a little bio about myself',
+      avatarsrc: null
+      
     }
   }
 
@@ -31,6 +39,8 @@ class ProfileScreen extends React.Component {
       this.setState({ imageUri: imageUri0 })
     }
   }
+
+
   render() {
     const { navigation } = this.props;
     return (
@@ -44,11 +54,11 @@ class ProfileScreen extends React.Component {
           <SafeAreaView  style={{flex: 1, alignItems: "center", justifyContent: "center"}} 
           onLayout={(event) => {
             var {x, y, width, height} = event.nativeEvent.layout
-            console.log(width)
-            console.log(height)
           }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Picture", { page: this })}>
+              onPress={() => this.props.navigation.navigate("Picture", { page: this })}
+              >
+
               <Image style={{
                 width: 150,
                 height: 150,
@@ -72,7 +82,18 @@ class ProfileScreen extends React.Component {
                 color: "white",
                 textAlign: "center"
               }}>
-              {this.state.userName}
+              {this.state.name}
+            </Text>
+            <Text
+              style={{
+                fontWeight: "normal",
+                fontSize: 12,
+                marginTop: 0,
+                marginBottom: 0,
+                color: "white",
+                textAlign: "center"
+              }}>
+              @{this.state.userName}
             </Text>
             <Text
               style={{
@@ -125,6 +146,12 @@ class PictureScreen extends React.Component {
     lastPage.Load_New_Image();
     this.props.navigation.navigate('Profile')
   }
+
+  getSelectedImages(image) {
+    if (image[0]){
+      alert(image[0].uri);
+    }
+  }
   render() {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
@@ -150,13 +177,13 @@ class PictureScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            this.update(lastPage)
+            this.props.navigation.navigate('Camera')
           }>
           <Text style={{
             fontSize: 35
           }}>
             Choose a photo</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> 
       </SafeAreaView>
     );
   }
@@ -167,6 +194,7 @@ class EditScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      name:'',
       userName: '',
       location: '',
       age: '',
@@ -175,11 +203,13 @@ class EditScreen extends React.Component {
     }
   }
   updateProfile(lastPage) {
+    var name = (this.state.name == '') ? lastPage.state.name : this.state.name
     var user = (this.state.userName == '') ? lastPage.state.userName : this.state.userName
     var location = (this.state.location == '') ? lastPage.state.location : this.state.location
     var age = (this.state.age == '') ? lastPage.state.age : this.state.age
     var bio = (this.state.bio == '') ? lastPage.state.bio : this.state.bio
     lastPage.setState({
+      name: name,
       userName: user,
       location: location,
       age: age,
@@ -203,6 +233,19 @@ class EditScreen extends React.Component {
       <ScrollView>
         <View style={[styles.card1, { backgroundColor: 'white' }]}>
           <Text style={styles.title}>Edit Your Profile</Text>
+          <Kaede style={styles.input}
+            label="Name"
+            placeholder={lastPage.state.name}
+            labelStyle={{
+              color: 'white',
+              backgroundColor: '#4B9CD3',
+            }}
+            inputStyle={{
+              color: '#4B9CD3',
+              backgroundColor: 'white',
+            }}
+            onChangeText={(name) => this.setState({ name })}
+          />
           <Kaede style={styles.input}
             label="User Name"
             placeholder={lastPage.state.userName}
@@ -340,6 +383,109 @@ class EditScreen extends React.Component {
   }
 }
 
+class CameraScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // this.onBarCodeRead = this.onBarCodeRead.bind(this);
+    // this.renderMessage = this.renderMessage.bind(this);
+    this.scannedCode = null;
+
+    this.state = {
+      hasCameraPermission: null,
+      type: Camera.Constants.Type.back,
+    };
+  }
+
+  async componentWillMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    await this.setState({hasCameraPermission: status === 'granted'});
+    await this.resetScanner();
+  }
+
+  // renderAlert(title, message) {
+  //   Alert.alert(
+  //     title,
+  //     message,
+  //     [
+  //       { text: 'OK', onPress: () => this.resetScanner() },
+  //     ],
+  //     { cancelable: true }
+  //   );
+  // }
+
+  onBarCodeRead({ type, data } ) {
+    if ((type === this.state.scannedItem.type && data === this.state.scannedItem.data) || data === null) {
+      return;
+    }
+
+    Vibration.vibrate();
+    this.setState({ scannedItem: { data, type } });
+
+    if (type.startsWith('org.gs1.EAN')) {
+      // Do something for EAN
+      console.log(`EAN scanned: ${data}`);
+      this.resetScanner();
+      this.props.navigation.navigate('YOUR_NEXT_SCREEN', { ean: data });
+    } else if (type.startsWith('org.iso.QRCode')) {
+      // Do samething for QRCode
+      console.log(`QRCode scanned: ${data}`);
+      this.resetScanner();
+    } else {
+      this.renderAlert(
+        'This barcode is not supported.',
+        `${type} : ${data}`,
+      );
+    }
+  }
+
+  // renderMessage() {
+  //   if (this.state.scannedItem && this.state.scannedItem.type) {
+  //     const { type, data } = this.state.scannedItem;
+  //     return (
+  //       <Text style={styles.scanScreenMessage}>
+  //         {`Scanned \n ${type} \n ${data}`}
+  //       </Text>
+  //     );
+  //   }
+  //   return <Text style={styles.scanScreenMessage}>Focus the barcode to scan.</Text>;
+  // }
+
+  resetScanner() {
+    this.scannedCode = null;
+    this.setState({
+      scannedItem: {
+        type: null,
+        data: null
+      }
+    });
+  }
+
+  render() {
+    const { hasCameraPermission } = this.state;
+
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
+    return (
+      <View style={styles.container1}>
+        <View style={{ flex: 1 }}>
+          <BarCodeScanner
+            // onBarCodeScanned={this.onBarCodeRead}
+            style={StyleSheet.absoluteFill}
+          />
+          {/* {this.renderMessage()} */}
+        </View>
+      </View>
+    );
+  }
+}
+
+
+
 class FloatingLabelInput extends React.Component {
   state = {
     isFocused: true,
@@ -402,6 +548,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     opacity: 0.8,
   },
+  container1: {
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: '#fff',
+  },
+  scanScreenMessage: {
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
 
 export const ProfileStack = createStackNavigator(
@@ -415,6 +573,9 @@ export const ProfileStack = createStackNavigator(
     },
     Edit: {
       screen: EditScreen,
+    },
+    Camera: {
+      screen: CameraScreen,
     }
   },
   {
