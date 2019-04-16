@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput } from 'react-native'
+import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 export class SignInScreen extends React.Component {
@@ -10,6 +10,7 @@ export class SignInScreen extends React.Component {
         };
       }
 
+      
 //   static navigationOptions = {
 //     drawerIcon: () => (
 //       <Image
@@ -39,6 +40,7 @@ export class SignInScreen extends React.Component {
                 borderWidth: 1,
                 width: 300,
                 height: 50,
+                fontSize: 30
             }}
         />
 
@@ -47,6 +49,7 @@ export class SignInScreen extends React.Component {
             editable = {true}
             maxLength = {40}
             placeholder='Password here...'
+            inlineImageLeft='search_icon'
             onChangeText={(passText) => this.setState({passText})}
             value={this.state.passText}
             style={{ 
@@ -56,12 +59,25 @@ export class SignInScreen extends React.Component {
                 borderWidth: 1,
                 width: 300,
                 height: 50,
+                fontSize: 30
             }}
         />
 
 
 
+      <TouchableOpacity 
+        onPress={() => this.props.navigation.navigate('Home')}
+        >
+          <Text 
+          style={styles.button}>Sign In
+          </Text>
+      </TouchableOpacity>
 
+
+      <Button
+            title= "Cancel"
+            onPress={() => this.props.navigation.navigate('Gate')}
+          />
 
           <Button
             title="Go to Home"
@@ -71,3 +87,18 @@ export class SignInScreen extends React.Component {
       );
     }
   }
+
+  const styles = StyleSheet.create({
+    button: {
+      marginTop: 10,
+      backgroundColor: '#4B9CD3',
+      borderColor: 'white',
+      borderWidth: 1,
+      color: 'white',
+      fontSize: 20,
+      overflow: 'hidden',
+      padding: 12,
+      width: 300,
+      textAlign:'center',
+    }
+  })
