@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, TextInput, SafeAreaView, Text, View, StyleSheet, Image, Dimensions, ScrollView, StatusBar } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint } from '@fortawesome/free-solid-svg-icons'
+import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import ImageOverlay from "react-native-image-overlay";
 import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
 import { Camera, BarCodeScanner, Permissions } from 'expo';
@@ -165,12 +165,15 @@ class PictureScreen extends React.Component {
           color="#4B9CD3"
           style={{
             fontSize: 30,
-            marginRight: 15,
+            marginRight: "10%",
             right: 140,
             bottom: 235,
           }}
           onPress={() => this.props.navigation.goBack()}
         >
+
+
+
           <FontAwesomeIcon
             icon={faTimes} size={25} style={{ color: '#4B9CD3' }}
           />
@@ -178,11 +181,12 @@ class PictureScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('Camera')
+           // this.update(lastPage)
           }>
           <Text style={{
-            fontSize: 35
+            fontSize: 25
           }}>
-            Choose a photo</Text>
+            Open Your Camera</Text>
         </TouchableOpacity> 
       </SafeAreaView>
     );
@@ -471,15 +475,57 @@ class CameraScreen extends React.Component {
       return <Text>No access to camera</Text>;
     }
     return (
-      <View style={styles.container1}>
-        <View style={{ flex: 1 }}>
-          <BarCodeScanner
-            // onBarCodeScanned={this.onBarCodeRead}
-            style={StyleSheet.absoluteFill}
-          />
-          {/* {this.renderMessage()} */}
-        </View>
-      </View>
+      <SafeAreaView style={styles.container1}>
+         <Camera style={{ flex: 1 }} type={this.state.type}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+              }}>
+              <TouchableOpacity
+                style={{
+                  
+                  flex: 3,
+                  // alignSelf: 'flex-end',
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  this.props.navigation.goBack()
+                }}>
+                {/* <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  {' '}Flip{' '}
+                </Text> */}
+                <FontAwesomeIcon 
+                  icon={ faTimes } size={40} style={{ marginTop: "5%", marginRight: "70%", color: 'white' }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  
+                  flex: 3,
+                  // alignSelf: 'flex-end',
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  this.setState({
+                    type: this.state.type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back,
+                  });
+                }}>
+                {/* <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  {' '}Flip{' '}
+                </Text> */}
+                <FontAwesomeIcon 
+                  icon={ faSyncAlt } size={40} style={{ marginTop: "5%", marginLeft: "70%", color: 'white' }}
+                />
+              </TouchableOpacity>
+            </View>
+          </Camera>
+      </SafeAreaView>
     );
   }
 }
@@ -549,6 +595,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   container1: {
+    height: height,
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#fff',
