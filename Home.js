@@ -3,7 +3,7 @@ import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
-import { SearchBar, Input, Header, ListItem } from 'react-native-elements';
+import { SearchBar, Input, Header, ListItem, Tile } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
@@ -73,8 +73,6 @@ class HomeScreen extends React.Component {
       headerRight: (
         <TouchableOpacity 
           onPress={() => navigation.navigate('NewPost', { page: self } )}
-          //onPress={() => navigation.getParam('callfunc')}
-          //onPress={state.params._handleFilterPress()}
           style = {{
             fontSize: 32,
             marginRight: 15,
@@ -97,16 +95,9 @@ class HomeScreen extends React.Component {
     };
   };
 
-  // loadNewPost = (newText) => {
-  //   this.setState({ data: [
-  //     {key: newText},
-  //     {key: 'something new'},
-  //   ], },)
-  // }
-
   loadNewPost = (newText, user) => {
     //-------------------------this is just text code
-    users = ['Morgan Freeman', 'Harrison Reid', 'Dom Giordano', 'Enzo Huang', 'Iron Man', 'Thanos']
+    users = ['Morgan Freeman', 'Harrison Reid', 'Dom Giordano', 'Enzo Huang', 'Tony Stark', 'Thanos']
     avatars = [
       'https://i.pinimg.com/236x/16/73/2a/16732a398812e81f9e15d2d1f819cce9--morgan-freeman.jpg?b=t',
       'https://pbs.twimg.com/profile_images/914721150168698880/V3BKN27M_200x200.jpg',
@@ -115,15 +106,18 @@ class HomeScreen extends React.Component {
       'https://assets.faceit-cdn.net/avatars/c1bd800c-1770-4b1f-879f-52f27c84c6f4_1551064917661.jpg',
       'https://swishtoday.com/wordpress/wp-content/uploads/2018/12/93ee86a7b97b1e1c207579f298ef97a0cf2d2f1bv2hqjpg-1024x914.',
     ]
+    usernames = ['mfreedog', 'harrypottreid', 'd-rick', 'enzhoe\'s', 'ironMan', 'theWorst']
     //--------------------------
     if(user == null) {
       var random = Math.floor(Math.random()*(users.length))
-      user = users[random]
+      userSelect = users[random]
       avatar = avatars[random]
+      usernameSelect = usernames[random]
     }
     let newUserPost = {
-      name: user,
-      subtitle: newText,
+      user: userSelect,
+      username: usernameSelect,
+      content: newText,
       avatar_url: avatar,
     };
     this.state.data.push(newUserPost);
@@ -133,9 +127,12 @@ class HomeScreen extends React.Component {
   keyExtractor = ( item , index) => index.toString()
 
   renderItem = ({ item }) => (
+    // <Tile>
+      <View>
     <ListItem
-      title={item.name}
-      subtitle={item.subtitle}
+      title={item.user}
+      subtitle={item.username}
+      //={item.content}
       leftAvatar={{ source: { uri: item.avatar_url }}}
       //badge={{ value: likes, textStyle: { color: 'white' }, containerStyle: { marginTop: -20 } }}
       rightIcon={
@@ -149,8 +146,14 @@ class HomeScreen extends React.Component {
       }
      // onPress={}
       //style={{alignItems: "left", justifyContent: "left" }} 
-  
+      
+
     />
+    <Text style={{ marginLeft: 70 }}> content</Text>
+    </View>
+    
+    
+    
   )
 
   render() {
@@ -198,24 +201,20 @@ class HomeScreen extends React.Component {
 
 }
 
-
 class NewPost extends React.Component { //making a new post
   constructor(props) {
     super(props);
     this.state = {text: ''};
   }
 
-  //obiwon
   updateList(newText, lastpageHome) {
     lastpageHome.loadNewPost(newText)
     this.props.navigation.goBack()
   }
 
-
   render() {
     const { navigation } = this.props;
     const lastpageHome = navigation.getParam('page');
-   // console.log(lastpageHome)
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <StatusBar

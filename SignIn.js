@@ -1,48 +1,73 @@
-import React from 'react';
-import { Button, SafeAreaView, Text, View, StyleSheet, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native';
-import { createStackNavigator } from "react-navigation";
-import { SignUpScreen } from './SignUp.js'
-import { ForgotScreen } from './Forgot.js'
+import React from 'react'
+import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput } from 'react-native'
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
-class SignInScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Please sign in',
-  };
+export class SignInScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          
+        };
+      }
 
-  render() {
-    return (
-      <View>
-        <Button title="Sign In" onPress={this._signInAsync} />
-        <Button title="Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
-        <Button title="Forgot Password/Username" onPress={() => this.props.navigation.navigate('Forgot')} />
-      </View>
-    );
+//   static navigationOptions = {
+//     drawerIcon: () => (
+//       <Image
+//         source={{uri: `https://dummyimage.com/60x60/000/fff.jpg&text=3`}}
+//         style={{width: 30, height: 30, borderRadius: 15}}
+//       />
+//     )
+//   }
+    render() {
+      return (
+        <View style={{ flex: 1, alignItems: "center",  }}>
+          <Text>SignIn Screen</Text>
+          
+        <TextInput
+            {...this.props} // 
+            editable = {true}
+            maxLength = {40}
+            placeholder='Username here...'
+            onChangeText={(userText) => this.setState({userText})}
+            value={this.state.userText}
+            style={{ 
+                
+                alignItems: "center",
+                marginTop: 10,
+                marginBottom: 10,
+                borderColor: 'black', 
+                borderWidth: 1,
+                width: 300,
+                height: 50,
+            }}
+        />
+
+        <TextInput
+            {...this.props} // 
+            editable = {true}
+            maxLength = {40}
+            placeholder='Password here...'
+            onChangeText={(passText) => this.setState({passText})}
+            value={this.state.passText}
+            style={{ 
+                
+                alignItems: "center",
+                borderColor: 'black', 
+                borderWidth: 1,
+                width: 300,
+                height: 50,
+            }}
+        />
+
+
+
+
+
+          <Button
+            title="Go to Home"
+            onPress={() => alert(this.state.passText)}
+          />
+        </View>
+      );
+    }
   }
-  
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
-}
-
-export const SignStack = createStackNavigator(
-  {
-    SignIn: {
-      screen: SignInScreen,
-    },
-    SignUp: {
-      screen: SignUpScreen,
-    },
-    Forgot: {
-      screen: ForgotScreen,
-    },
-  },
-  {
-    initialRouteName: "SignIn"
-  }
-);
-
-
-
-  
- 

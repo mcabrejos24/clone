@@ -37,7 +37,7 @@ export class SearchScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     // const { search } = this.state;
      return{ 
-     title: 'home',
+     title: 'Search',
      
      header: (
      

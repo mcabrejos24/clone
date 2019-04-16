@@ -11,9 +11,15 @@ import { ProfileScreen } from './Profile.js'
 import { SearchScreen } from './Search.js'
 import { ChatScreen } from './Chat.js'
 import { NotificationsStack } from './Notifications.js'
-import { SignStack } from './SignIn.js'
+import { GateStack } from './Gate.js'
 import { SignUpScreen } from './SignUp.js'
 import { ForgotScreen } from './Forgot.js'
+
+//fetch('https://clone-applab.herokuapp.com/');
+
+
+
+
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -150,8 +156,8 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const AuthStack = createStackNavigator({ 
-  SignIn: {
-    screen: SignStack,
+  Gate: {
+    screen: GateStack,
   },
   // SignUp: {
   //   screen: SignUpScreen,
