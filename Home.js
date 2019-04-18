@@ -149,7 +149,9 @@ class HomeScreen extends React.Component {
       
 
     />
-    <Text style={{ marginLeft: 70 }}> content</Text>
+    <Text style={{ marginLeft: 70 }}>
+      {item.content}
+    </Text>
     </View>
     
     
