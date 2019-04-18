@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const root_url = 'https://clone-applab.herokuapp.com/';
@@ -8,19 +8,13 @@ export class SignInScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          
+          userText : '',
+          passText : '',
         };
       }
 
       
-//   static navigationOptions = {
-//     drawerIcon: () => (
-//       <Image
-//         source={{uri: `https://dummyimage.com/60x60/000/fff.jpg&text=3`}}
-//         style={{width: 30, height: 30, borderRadius: 15}}
-//       />
-//     )
-//   }
+
     render() {
       return (
         <View style={{ flex: 1, alignItems: "center",  }}>
@@ -33,6 +27,7 @@ export class SignInScreen extends React.Component {
             placeholder='Username here...'
             onChangeText={(userText) => this.setState({userText})}
             value={this.state.userText}
+            autoCapitalize = 'none'
             style={{ 
                 
                 alignItems: "center",
@@ -54,6 +49,7 @@ export class SignInScreen extends React.Component {
             inlineImageLeft='search_icon'
             onChangeText={(passText) => this.setState({passText})}
             value={this.state.passText}
+            autoCapitalize = 'none'
             style={{ 
                 
                 alignItems: "center",
@@ -86,45 +82,41 @@ export class SignInScreen extends React.Component {
     }
 
     _signInAsync = async () => {
-        var myInit = { 
+        var myInit = {
             method: 'POST',
-            body: JSON.stringify({username: "brandybs", password: "newpass1"}),
-            //body: JSON.stringify({username: this.state.userText, password: this.state.passText}),
+            // body: JSON.stringify({username: "brandybs", password: "newpjass1"}),
+            body: JSON.stringify({username: this.state.userText, password: this.state.passText}),
             // headers: {
             //     'Authorization': bearer,
             //     //'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
             //     'Content-Type': 'application/json'
             // },
-            mode: 'cors',
-            cache: 'default' 
+            // mode: 'cors',
+            // cache: 'default' 
         };
-        //const url = root_url + `users/login?username=${encodeURIComponent(this.state.userText)}&password=${encodeURIComponent(this.state.passText)}`;
-        //console.log(this.state.userText)
+
         var myRequest = new Request(root_url + 'users/login', myInit);
-    
-        fetch(myRequest)
-            .then(function(response) {
-                console.log(response.text())
-            })
+        await
+            fetch(myRequest)
+                .then((response) => response.text())
+                .then((responseJson) => {
+                    console.log(responseJson)
+                    if(responseJson === 'succesful login!'){
+                        AsyncStorage.setItem('userToken', this.state.userText);
+                        this.props.navigation.navigate('App');
+                    } else {
+                        throw 'Invalid username/password, please try again.'
+                    }
+                    
+                })
+                .catch((error) => {
+                    alert(error);
+                });
             
-
-
-        //await AsyncStorage.setItem('userToken', 'abc');
-        this.props.navigation.navigate('App');
+       
+        
       };
 }
-
-// function getUsersFromApiAsync() {
-//   return fetch('https://clone-applab.herokuapp.com/users')
-//     .then((response) => response.json())
-//     .then((responseJson) => {
-//       console.log(responseJson[0].username)
-//       return responseJson;
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// }
 
   const styles = StyleSheet.create({
     button: {

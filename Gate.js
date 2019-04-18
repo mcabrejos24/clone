@@ -28,6 +28,20 @@ class GateScreen extends React.Component {
   }
 }
 
+// function getUsersFromApiAsync() {
+//   return fetch('https://clone-applab.herokuapp.com/users')
+//     .then((response) => response.json())
+//     .then((responseJson) => {
+//       console.log(responseJson)
+//       return responseJson;
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     });
+// }
+
+// getUsersFromApiAsync();
+
 
 
 
