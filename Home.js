@@ -131,7 +131,7 @@ class HomeScreen extends React.Component {
       <View>
     <ListItem
       title={item.user}
-      subtitle={item.username}
+      subtitle={'@'+item.username}
       //={item.content}
       leftAvatar={{ source: { uri: item.avatar_url }}}
       //badge={{ value: likes, textStyle: { color: 'white' }, containerStyle: { marginTop: -20 } }}

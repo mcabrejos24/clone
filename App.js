@@ -173,7 +173,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     App: TabNavigator,
-    Auth: AuthStack,
+    Auth: GateStack,
   },
   {
     initialRouteName: 'AuthLoading',

@@ -2,6 +2,8 @@ import React from 'react'
 import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
+const root_url = 'https://clone-applab.herokuapp.com/';
+
 export class SignInScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -22,7 +24,7 @@ export class SignInScreen extends React.Component {
     render() {
       return (
         <View style={{ flex: 1, alignItems: "center",  }}>
-          <Text>SignIn Screen</Text>
+          <Text style={{marginTop: 100}}>SignIn Screen</Text>
           
         <TextInput
             {...this.props} // 
@@ -65,28 +67,64 @@ export class SignInScreen extends React.Component {
 
 
 
-      <TouchableOpacity 
-        onPress={() => this.props.navigation.navigate('Home')}
+        <TouchableOpacity 
+            onPress={this._signInAsync}
         >
-          <Text 
-          style={styles.button}>Sign In
-          </Text>
-      </TouchableOpacity>
+            <Text 
+            style={styles.button}>Sign In
+            </Text>
+        </TouchableOpacity>
 
 
-      <Button
+        <Button
             title= "Cancel"
             onPress={() => this.props.navigation.navigate('Gate')}
           />
 
-          <Button
-            title="Go to Home"
-            onPress={() => alert(this.state.passText)}
-          />
         </View>
       );
     }
-  }
+
+    _signInAsync = async () => {
+        var myInit = { 
+            method: 'POST',
+            body: JSON.stringify({username: "brandybs", password: "newpass1"}),
+            //body: JSON.stringify({username: this.state.userText, password: this.state.passText}),
+            // headers: {
+            //     'Authorization': bearer,
+            //     //'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+            //     'Content-Type': 'application/json'
+            // },
+            mode: 'cors',
+            cache: 'default' 
+        };
+        //const url = root_url + `users/login?username=${encodeURIComponent(this.state.userText)}&password=${encodeURIComponent(this.state.passText)}`;
+        //console.log(this.state.userText)
+        var myRequest = new Request(root_url + 'users/login', myInit);
+    
+        fetch(myRequest)
+            .then(function(response) {
+                console.log(response.text())
+            })
+            
+
+
+        //await AsyncStorage.setItem('userToken', 'abc');
+        this.props.navigation.navigate('App');
+      };
+}
+
+// function getUsersFromApiAsync() {
+//   return fetch('https://clone-applab.herokuapp.com/users')
+//     .then((response) => response.json())
+//     .then((responseJson) => {
+//       console.log(responseJson[0].username)
+//       return responseJson;
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     });
+// }
 
   const styles = StyleSheet.create({
     button: {
