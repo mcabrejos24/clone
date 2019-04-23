@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, SafeAreaView, Text, View, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import { FormLabel, FormValidationMessage} from 'react-native-elements'
 
 const root_url = 'https://clone-applab.herokuapp.com/';
 
@@ -17,7 +18,10 @@ export class SignInScreen extends React.Component {
 
     render() {
       return (
-        <View style={{ flex: 1, alignItems: "center",  }}>
+
+     
+
+        <View style={{ flex: 1, alignItems: "center" }}>
           <Text style={{marginTop: 100}}>SignIn Screen</Text>
           
         <TextInput
@@ -33,11 +37,13 @@ export class SignInScreen extends React.Component {
                 alignItems: "center",
                 marginTop: 10,
                 marginBottom: 10,
-                borderColor: 'black', 
+                borderColor: 'grey', 
                 borderWidth: 1,
                 width: 300,
                 height: 50,
-                fontSize: 30
+                fontSize: 20,
+                padding: 10,
+                borderRadius: 25
             }}
         />
 
@@ -46,21 +52,48 @@ export class SignInScreen extends React.Component {
             editable = {true}
             maxLength = {40}
             placeholder='Password here...'
-            inlineImageLeft='search_icon'
             onChangeText={(passText) => this.setState({passText})}
             value={this.state.passText}
             autoCapitalize = 'none'
             style={{ 
                 
                 alignItems: "center",
-                borderColor: 'black', 
-                borderWidth: 1,
+                borderColor: 'grey', 
+               borderWidth: 1,
                 width: 300,
                 height: 50,
-                fontSize: 30
+                fontSize: 20,
+                padding: 10,
+                borderRadius: 25
             }}
         />
 
+
+{/* <FormLabel>Name</FormLabel>
+
+
+      <TextInput
+            {...this.props} // 
+            editable = {true}
+            maxLength = {40}
+            placeholder='Password here...'
+            inlineImageLeft='search_icon'
+            onChangeText={(passText) => this.setState({passText})}
+            value={this.state.passText}
+            style={{ 
+                
+                alignItems: "center",
+                borderColor: 'grey', 
+               borderWidth: 1,
+               
+                width: 300,
+                height: 50,
+                fontSize: 20
+            }}
+        /> 
+
+
+<FormValidationMessage>Error message</FormValidationMessage> */}
 
 
         <TouchableOpacity 
@@ -122,6 +155,7 @@ export class SignInScreen extends React.Component {
     button: {
       marginTop: 10,
       backgroundColor: '#4B9CD3',
+      borderRadius: 25,
       borderColor: 'white',
       borderWidth: 1,
       color: 'white',

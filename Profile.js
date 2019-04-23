@@ -1,11 +1,11 @@
 import React from 'react'
-import { TouchableOpacity, TextInput, SafeAreaView, Text, View, StyleSheet, Image, Dimensions, ScrollView, StatusBar } from 'react-native'
+import { TouchableOpacity, TextInput, SafeAreaView, Text, View, StyleSheet, Image, Dimensions, ScrollView, StatusBar,Button } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes, faGrinTongueSquint, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import ImageOverlay from "react-native-image-overlay";
 import { Sae, Kaede, Fumi, Madoka } from 'react-native-textinput-effects';
-import { Camera, BarCodeScanner, Permissions } from 'expo';
+import { Camera, BarCodeScanner, Permissions, CameraRoll, ImagePicker } from 'expo';
 
 var { height, width } = Dimensions.get('window')
 const options = {
@@ -118,21 +118,29 @@ class ProfileScreen extends React.Component {
               }}>
               {this.state.bio}
             </Text>
+            <View
+            style ={{
+              marginTop: "9%",
+              marginBottom: "0%",
+            }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Edit", { page: this })}>
+              onPress={() => this.props.navigation.navigate("Edit", { page: this })}
+              style= {{ flex: 0.25}}
+              >
               <Image style={{
                 width: 30,
                 height: 30,
 
                 marginHorizontal: width / 2 + 60,
-                marginTop: "8%",
-                marginBottom: "40%",
+                // marginTop: "8%",
+                // marginBottom: "40%",
 
               }}
                 source={{ uri: "https://heroeshearth.com/images/icon-edit.png" }}
               />
 
             </TouchableOpacity>
+            </View>
           </SafeAreaView>
         </ImageOverlay>
 
@@ -156,7 +164,8 @@ class PictureScreen extends React.Component {
     const { navigation } = this.props;
     const lastPage = navigation.getParam('page');
     return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView>
+      {/* style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} */}
         <StatusBar
           barStyle="dark-content"
           backgroundColor="black"
@@ -164,21 +173,24 @@ class PictureScreen extends React.Component {
         <TouchableOpacity
           color="#4B9CD3"
           style={{
-            fontSize: 30,
-            marginRight: "10%",
-            right: 140,
-            bottom: 235,
+            marginTop:"4%",
+            marginLeft: "3%",
           }}
           onPress={() => this.props.navigation.goBack()}
         >
-
-
-
           <FontAwesomeIcon
             icon={faTimes} size={25} style={{ color: '#4B9CD3' }}
           />
         </TouchableOpacity>
+        <View
+        style = {{
+          alignItems: 'center', justifyContent: 'center'
+        }}>
         <TouchableOpacity
+          style={{
+            marginTop:"50%",
+            marginBottom: "0%"
+          }}
           onPress={() =>
             this.props.navigation.navigate('Camera')
            // this.update(lastPage)
@@ -188,6 +200,21 @@ class PictureScreen extends React.Component {
           }}>
             Open Your Camera</Text>
         </TouchableOpacity> 
+        <TouchableOpacity
+          style={{
+            marginTop:"0%",
+            marginBottom: "0%"
+          }}
+          onPress={() =>
+            this.props.navigation.navigate('Photo')
+           // this.update(lastPage)
+          }>
+          <Text style={{
+            fontSize: 25
+          }}>
+            Get Photo</Text>
+        </TouchableOpacity> 
+        </View>
       </SafeAreaView>
     );
   }
@@ -386,15 +413,43 @@ class EditScreen extends React.Component {
     )
   }
 }
+// class PhotoScreen extends React.Component {
+//   state = {
+//     image: null,
+//   };
+
+//   render() {
+//     let { image } = this.state;
+
+//     return (
+//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//         <Button
+//           title="Pick an image from camera roll"
+//           onPress={this._pickImage}
+//         />
+//         {image &&
+//           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+//       </View>
+//     );
+//   }
+
+// //   _pickImage = async () => {
+// //     let result = await ImagePicker.launchImageLibraryAsync({
+// //       allowsEditing: true,
+// //       aspect: [4, 3],
+// //     });
+
+// //     console.log(result);
+
+// //     if (!result.cancelled) {
+// //       this.setState({ image: result.uri });
+// //     }
+// //   };
+// }
 
 class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
-
-    // this.onBarCodeRead = this.onBarCodeRead.bind(this);
-    // this.renderMessage = this.renderMessage.bind(this);
-    this.scannedCode = null;
-
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
@@ -404,65 +459,6 @@ class CameraScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     await this.setState({hasCameraPermission: status === 'granted'});
-    await this.resetScanner();
-  }
-
-  // renderAlert(title, message) {
-  //   Alert.alert(
-  //     title,
-  //     message,
-  //     [
-  //       { text: 'OK', onPress: () => this.resetScanner() },
-  //     ],
-  //     { cancelable: true }
-  //   );
-  // }
-
-  onBarCodeRead({ type, data } ) {
-    if ((type === this.state.scannedItem.type && data === this.state.scannedItem.data) || data === null) {
-      return;
-    }
-
-    Vibration.vibrate();
-    this.setState({ scannedItem: { data, type } });
-
-    if (type.startsWith('org.gs1.EAN')) {
-      // Do something for EAN
-      console.log(`EAN scanned: ${data}`);
-      this.resetScanner();
-      this.props.navigation.navigate('YOUR_NEXT_SCREEN', { ean: data });
-    } else if (type.startsWith('org.iso.QRCode')) {
-      // Do samething for QRCode
-      console.log(`QRCode scanned: ${data}`);
-      this.resetScanner();
-    } else {
-      this.renderAlert(
-        'This barcode is not supported.',
-        `${type} : ${data}`,
-      );
-    }
-  }
-
-  // renderMessage() {
-  //   if (this.state.scannedItem && this.state.scannedItem.type) {
-  //     const { type, data } = this.state.scannedItem;
-  //     return (
-  //       <Text style={styles.scanScreenMessage}>
-  //         {`Scanned \n ${type} \n ${data}`}
-  //       </Text>
-  //     );
-  //   }
-  //   return <Text style={styles.scanScreenMessage}>Focus the barcode to scan.</Text>;
-  // }
-
-  resetScanner() {
-    this.scannedCode = null;
-    this.setState({
-      scannedItem: {
-        type: null,
-        data: null
-      }
-    });
   }
 
   render() {
@@ -479,33 +475,31 @@ class CameraScreen extends React.Component {
          <Camera style={{ flex: 1 }} type={this.state.type}>
             <View
               style={{
-                flex: 1,
+                flex: 0.1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
+              <View>
               <TouchableOpacity
                 style={{
                   
-                  flex: 3,
-                  // alignSelf: 'flex-end',
+                  flex: 1,
+                  
                   alignItems: 'center',
                 }}
                 onPress={() => {
                   this.props.navigation.goBack()
                 }}>
-                {/* <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Flip{' '}
-                </Text> */}
                 <FontAwesomeIcon 
-                  icon={ faTimes } size={40} style={{ marginTop: "5%", marginRight: "70%", color: 'white' }}
+                  icon={ faTimes } size={35} style={{ marginTop: "19%", marginRight: "2%", color: 'white' }}
                 />
               </TouchableOpacity>
+              </View>
+              <View style = {{marginLeft : "60%"}}>
               <TouchableOpacity
                 style={{
                   
-                  flex: 3,
-                  // alignSelf: 'flex-end',
+                  flex: 1,
                   alignItems: 'center',
                 }}
                 onPress={() => {
@@ -515,12 +509,26 @@ class CameraScreen extends React.Component {
                       : Camera.Constants.Type.back,
                   });
                 }}>
-                {/* <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Flip{' '}
-                </Text> */}
                 <FontAwesomeIcon 
-                  icon={ faSyncAlt } size={40} style={{ marginTop: "5%", marginLeft: "70%", color: 'white' }}
+                  icon={ faSyncAlt } size={35} style={{ marginTop: "10%", marginLeft: "50%", color: 'white' }}
+                />
+              </TouchableOpacity>
+              </View>
+            </View>
+            <View style ={{
+              marginTop: "100%"
+            }}>
+            <TouchableOpacity
+                style={{
+                  marginTop : "50%",
+                  flex: 0,
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  CameraRoll.getPhotos(params)
+                }}>
+                <FontAwesomeIcon 
+                  icon={ faTimes } size={35} style={{ marginLeft: "0%", color: 'white' }}
                 />
               </TouchableOpacity>
             </View>
@@ -613,7 +621,9 @@ export const ProfileStack = createStackNavigator(
   {
     Profile: {
       screen: ProfileScreen,
-      header: { visible: false }
+      navigationOptions: {
+        header: null,
+      },  
     },
     Picture: {
       screen: PictureScreen,
@@ -623,11 +633,22 @@ export const ProfileStack = createStackNavigator(
     },
     Camera: {
       screen: CameraScreen,
-    }
+    },
+    // Photo: {
+    //   screen: PhotoScreen,
+      
+    // }
   },
   {
     mode: 'modal',
     headerMode: 'none',
+  },
+  { 
+    navigationOptions: {
+      headerVisible: false,
   }
+  },
+
+  
 )
 
