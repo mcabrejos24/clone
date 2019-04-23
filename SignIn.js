@@ -13,13 +13,8 @@ export class SignInScreen extends React.Component {
           passText : '',
         };
       }
-
-      
-
     render() {
       return (
-
-     
 
         <View style={{ flex: 1, alignItems: "center" }}>
           <Text style={{marginTop: 100}}>SignIn Screen</Text>
@@ -134,7 +129,7 @@ export class SignInScreen extends React.Component {
                 .then((response) => response.text())
                 .then((responseJson) => {
                     console.log(responseJson)
-                    if(responseJson === 'succesful login!'){
+                    if(responseJson === 'succesful login!') {
                         AsyncStorage.setItem('userToken', this.state.userText);
                         this.props.navigation.navigate('App');
                     } else {

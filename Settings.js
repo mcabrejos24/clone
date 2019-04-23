@@ -27,8 +27,6 @@ export class SettingsScreen extends React.Component {
 
     var myInit = {
       method: 'GET',
-      //body: JSON.stringify({username: "brandybs", password: "newpjass1"}),
-      //body: JSON.stringify({username: this.state.userText, password: this.state.passText}),
     };
 
     var myRequest = new Request(root_url + 'users/logout', myInit);
