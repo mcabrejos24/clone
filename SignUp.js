@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { Button, SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation"
 import { FormLabel, FormValidationMessage } from 'react-native-elements';
 
@@ -9,9 +9,9 @@ export class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userText : 'aaaaaa',
-      firstText : 'aaaa',
-      lastText : 'aaa',
+      userText : 'd',
+      firstText : 'd',
+      lastText : 'd',
       passText : 'aaa',
       emailText : 'aaaa',
       phoneText : '3344q3433',
@@ -181,12 +181,12 @@ export class SignUpScreen extends React.Component {
     await
             fetch(myRequest)
             .then((responseJson) => {
-              console.log(responseJson)
-              if(responseJson !== '') {
+              console.log(responseJson._bodyInit + 'yup')
+              if(responseJson._bodyInit !== '') {
                   AsyncStorage.setItem('userToken', this.state.userText);
                   this.props.navigation.navigate('App');
               } else {
-                  throw 'Invalid username/password, please try again.'
+                  throw 'This user already seems to exist, please only enter new user credentials.'
               }
               
           })

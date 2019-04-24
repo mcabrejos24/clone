@@ -18,6 +18,7 @@ export class SettingsScreen extends React.Component {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>Settings Screen</Text>
         <Button title="Sign out" onPress={this._signOutAsync} />
+        <Button title="Delete Account" onPress={this._deleteAsync} />
       </View>
     );
   }
@@ -38,5 +39,30 @@ export class SettingsScreen extends React.Component {
       await AsyncStorage.clear();
       this.props.navigation.navigate('Auth');
     };
+
+    _deleteAsync = async () => {
+      AsyncStorage.getItem('userToken', (err, result) => {
+        console.log(result)
+        var myInit = {
+          method: 'DELETE',
+          body: JSON.stringify({username: result}),
+        }
+
+        var myRequest = new Request(root_url + 'users', myInit);
+
+        fetch(myRequest)
+          .then((response) => response.text())
+          .then((responseJson) => {
+            console.log(responseJson)
+
+          })
+      })
+      
+      await AsyncStorage.clear();
+      this.props.navigation.navigate('Auth');
+      
+
+    }
+
     
   }

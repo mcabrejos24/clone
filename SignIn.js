@@ -133,7 +133,7 @@ export class SignInScreen extends React.Component {
                         AsyncStorage.setItem('userToken', this.state.userText);
                         this.props.navigation.navigate('App');
                     } else {
-                        throw 'Invalid username/password, please try again.'
+                        throw 'Invalid password/username, please try again or go back and try forgot password/username.'
                     }
                     
                 })

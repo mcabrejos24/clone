@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar, TextInput, ScrollView, Dimensions, FlatList } from 'react-native'
+import { TouchableOpacity, Button, SafeAreaView, Text, View, StyleSheet, Image, StatusBar, TextInput, ScrollView, Dimensions, FlatList, AsyncStorage } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlusCircle, faUserCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
@@ -8,9 +8,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { ProfileStack } from './Profile.js'
 import { SettingsScreen } from './Settings.js'
 import { PostScreen } from './Post.js'
+const root_url = 'https://clone-applab.herokuapp.com/';
 
 var {height, width} = Dimensions.get('window')  //to get the height and width
 var self //for a global variable of this
+
 
 //console.log(width)
 //console.log(height)
@@ -96,6 +98,24 @@ class HomeScreen extends React.Component {
   };
 
   loadNewPost = (newText, user) => {
+    AsyncStorage.getItem('userToken', (err, result) => {
+      console.log(result)
+      
+      var myInit = {
+        method: 'POST',
+        body: JSON.stringify(newText),
+      }
+
+      var myRequest = new Request(root_url + 'posts', myInit);
+
+      fetch(myRequest)
+        .then((response) => console.log(response))
+
+    });
+
+
+
+
     //-------------------------this is just text code
     users = ['Morgan Freeman', 'Harrison Reid', 'Dom Giordano', 'Enzo Huang', 'Tony Stark', 'Thanos']
     avatars = [
