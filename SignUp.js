@@ -174,6 +174,7 @@ export class SignUpScreen extends React.Component {
         profile_picture: 'this.state.profile_picture'
         
       }),
+      credentials: "include",
     };
 
     var myRequest = new Request(root_url + 'users', myInit);

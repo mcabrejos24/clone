@@ -114,6 +114,7 @@ export class SignInScreen extends React.Component {
             method: 'POST',
             // body: JSON.stringify({username: "brandybs", password: "newpjass1"}),
             body: JSON.stringify({username: this.state.userText, password: this.state.passText}),
+            credentials: "include",
             // headers: {
             //     'Authorization': bearer,
             //     //'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute

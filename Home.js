@@ -39,6 +39,9 @@ class HomeScreen extends React.Component {
   constructor() {
     super();
     self = this;
+    var thing ='dfsdf'
+    this._postAsync()
+    //console.log(allFriendPosts)
     this.state = {
       data: [
         // {
@@ -53,6 +56,53 @@ class HomeScreen extends React.Component {
         // },
       ],
     }
+  }
+  
+
+  _postAsync = async () => {
+    
+    var loadAll = {
+      method: 'GET',
+      //body: JSON.stringify({post_id: '3'}),
+      credentials: "include",
+
+    }
+
+    var myRequest = new Request(root_url + 'posts', loadAll);
+
+    //var thing1 = 
+    fetch(myRequest)
+      //.then((response) => response.text())
+      .then((response) => response.text())
+        .then((responseJson) => {
+        console.log(responseJson)
+
+ 
+     AsyncStorage.setItem('posts', responseJson);
+
+    })
+
+    var foundPost = async () => {
+      let posts = '';
+      try {
+        posts = await AsyncStorage.getItem('posts');
+      } catch (error) {
+        // Error retrieving data
+        console.log(error.message);
+      }
+      return posts;
+    }
+    console.log(foundPost)
+    
+    // var sweet = AsyncStorage.getItem('posts', (err, result) => {
+    //   //console.log(result + 's') 
+      
+    
+    // });
+    // console.log('below')
+    // console.log(this.state.data)
+    
+   
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -98,20 +148,33 @@ class HomeScreen extends React.Component {
   };
 
   loadNewPost = (newText, user) => {
-    AsyncStorage.getItem('userToken', (err, result) => {
-      console.log(result)
+    //AsyncStorage.getItem('userToken', (err, result) => {
+      //console.log(result + 's')
       
       var myInit = {
         method: 'POST',
-        body: JSON.stringify(newText),
+        body: JSON.stringify({body: newText}),
+        credentials: "include",
+
       }
 
       var myRequest = new Request(root_url + 'posts', myInit);
 
       fetch(myRequest)
-        .then((response) => console.log(response))
+        //.then((response) => response.text())
+        .then((response) => response.text())
+          .then((responseJson) => {
+          console.log(responseJson)
+      //     // if(responseJson === 'succesful login!') {
+      //     //     AsyncStorage.setItem('userToken', this.state.userText);
+      //     //     this.props.navigation.navigate('App');
+      //     // } else {
+      //     //     throw 'Invalid password/username, please try again or go back and try forgot password/username.'
+      //     // }
+          
+      })
 
-    });
+    //});
 
 
 
