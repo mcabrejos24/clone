@@ -90,6 +90,7 @@ class HomeScreen extends React.Component {
           var smallRequest = new Request(root_url + 'users/:' + objPost[i].username, {method: 'GET', credentials: "include",})
           fetch(smallRequest)
             .then((response) => console.log(response))
+            //here last time, want to make sure it can get the friend's names for posts
 
 
 
