@@ -75,12 +75,55 @@ class HomeScreen extends React.Component {
       //.then((response) => response.text())
       .then((response) => response.text())
         .then((responseJson) => {
-        console.log(responseJson)
+          var objPost = JSON.parse(responseJson)
+        for(var i=0; i<objPost.length; i++  ){
+          console.log(objPost[i])
+          
+          var pic = objPost[i].picture;
+          
+          if(pic == null){
+            pic = 'https://cdn.dribbble.com/users/246953/screenshots/4208078/jellyfish.png';
+          }
+          console.log(objPost[i].username)
+          console.log('here----')
 
- 
-     AsyncStorage.setItem('posts', responseJson);
+          var smallRequest = new Request(root_url + 'users/:' + objPost[i].username, {method: 'GET', credentials: "include",})
+          fetch(smallRequest)
+            .then((response) => console.log(response))
+
+
+
+          var object = {
+            user: objPost[i].username,
+            username: objPost[i].username,
+            content: objPost[i].body,
+            avatar_url: pic,
+          }
+          //this.state.data.push(object);
+          this.state.data.push(object);
+          this.setState({ data: this.state.data, },)
+          console.log(this.state.data)
+
+        }
+        
+        //when signed in, this definitely has all the posts but we need to figure out a way to make it so that this value can go into something outside
+        //otherwise we just have to make the entire page be inside of here
+          //console.log(this.state.data)
+
+
+
+        //   this.state.data = [{
+        //     name: 'Harrison',
+        // //   subtitle: 'Trying out this new social media!',
+        // //   avatar_url: 'https://pbs.twimg.com/profile_images/914721150168698880/V3BKN27M_200x200.jpg',
+
+        //   }]
+
+    //  AsyncStorage.setItem('posts', responseJson);
 
     })
+
+    
 
     var foundPost = async () => {
       let posts = '';
@@ -92,7 +135,7 @@ class HomeScreen extends React.Component {
       }
       return posts;
     }
-    console.log(foundPost)
+    //console.log(foundPost)
     
     // var sweet = AsyncStorage.getItem('posts', (err, result) => {
     //   //console.log(result + 's') 
@@ -104,6 +147,9 @@ class HomeScreen extends React.Component {
     
    
   }
+ 
+
+  
 
   static navigationOptions = ({ navigation }) => {
     return {
