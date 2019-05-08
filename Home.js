@@ -57,71 +57,51 @@ class HomeScreen extends React.Component {
       ],
     }
   }
-  
 
+  //this function allows the _postAsync to get the full name of the users for the posts
+  _smallAsync = async (smallRequest, thisObjPost, pic) => {
+    fetch(smallRequest)
+    .then((response) => response.text())
+      .then((responseJson) => {
+        var objUser = JSON.parse(responseJson)
+
+        var object = {
+          user: objUser[0].firstname + ' ' + objUser[0].lastname,
+          username: thisObjPost.username,
+          content: thisObjPost.body,
+          avatar_url: pic,
+        }
+        this.state.data.push(object);
+        this.setState({ data: this.state.data, },)
+      })
+  }
+  
+  //this function gathers all the posts
   _postAsync = async () => {
-    
     var loadAll = {
       method: 'GET',
       //body: JSON.stringify({post_id: '3'}),
       credentials: "include",
-
     }
-
     var myRequest = new Request(root_url + 'posts', loadAll);
-
-    //var thing1 = 
     fetch(myRequest)
-      //.then((response) => response.text())
       .then((response) => response.text())
         .then((responseJson) => {
           var objPost = JSON.parse(responseJson)
-        for(var i=0; i<objPost.length; i++  ){
-          console.log(objPost[i])
-          
-          var pic = objPost[i].picture;
-          
-          if(pic == null){
-            pic = 'https://cdn.dribbble.com/users/246953/screenshots/4208078/jellyfish.png';
+          for(var i=0; i<objPost.length; i++){
+            //***** */
+            //console.log(objPost[i])
+            //to see what a post contains
+            var thisObjPost = objPost[i];
+            var pic = thisObjPost.picture;
+            if(pic == null){
+              pic = 'https://cdn.dribbble.com/users/246953/screenshots/4208078/jellyfish.png';
+            }
+            var smallRequest = new Request(root_url + 'users/' + objPost[i].username, {method: 'GET', credentials: "include",})
+            this._smallAsync(smallRequest, thisObjPost, pic)
           }
-          console.log(objPost[i].username)
-          console.log('here----')
-
-          var smallRequest = new Request(root_url + 'users/:' + objPost[i].username, {method: 'GET', credentials: "include",})
-          fetch(smallRequest)
-            .then((response) => console.log(response))
-            //here last time, want to make sure it can get the friend's names for posts
-
-
-
-          var object = {
-            user: objPost[i].username,
-            username: objPost[i].username,
-            content: objPost[i].body,
-            avatar_url: pic,
-          }
-          //this.state.data.push(object);
-          this.state.data.push(object);
-          this.setState({ data: this.state.data, },)
-          console.log(this.state.data)
-
-        }
-        
         //when signed in, this definitely has all the posts but we need to figure out a way to make it so that this value can go into something outside
         //otherwise we just have to make the entire page be inside of here
-          //console.log(this.state.data)
-
-
-
-        //   this.state.data = [{
-        //     name: 'Harrison',
-        // //   subtitle: 'Trying out this new social media!',
-        // //   avatar_url: 'https://pbs.twimg.com/profile_images/914721150168698880/V3BKN27M_200x200.jpg',
-
-        //   }]
-
-    //  AsyncStorage.setItem('posts', responseJson);
-
     })
 
     
@@ -145,9 +125,9 @@ class HomeScreen extends React.Component {
     // });
     // console.log('below')
     // console.log(this.state.data)
-    
-   
   }
+
+  
  
 
   
@@ -195,14 +175,10 @@ class HomeScreen extends React.Component {
   };
 
   loadNewPost = (newText, user) => {
-    //AsyncStorage.getItem('userToken', (err, result) => {
-      //console.log(result + 's')
-      
       var myInit = {
         method: 'POST',
         body: JSON.stringify({body: newText}),
         credentials: "include",
-
       }
 
       var myRequest = new Request(root_url + 'posts', myInit);
